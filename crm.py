@@ -3,9 +3,9 @@ import re
 class Clients(): 
     def __init__(self, name, phone_num, company, notes): 
         self.name = name
-        self.email = self.name + '.' + self.company + '@gmail.com'
         self.phone = phone_num 
         self.company = company 
+        self.email = self.name + '.' + self.company + '@gmail.com'
         self.notes = notes
 
     def __str__(self):
@@ -25,29 +25,33 @@ def add_client():
         if name.isalpha():
             break
         print('Please, Provide the right input!')
+
+    def is_valid_phone(phone_num):
+        pattern = r'^[\+]?\d[\d\s\-]*$'
+        return bool(re.match(pattern, phone_num))
         
     while True:
         phone_num = input('What is the Phone number?')
-        if phone_num.isdigit():
+        if is_valid_phone(phone_num):
             break
         print('Please, Provide the right input!')
             
     while True:
         company = input('What is the Company name?').strip()
-        if company.isalnum():
+        if company.isalpha():
             break
         print('Company name can only include string and numbers!')
  
-        notes = input('What Notes would you like to add?').strip()
+    notes = input('What Notes would you like to add?').strip()
 
     return name, phone_num, company, notes 
 
 name, phone_num, company, notes = add_client()
 
 client = Clients(name, phone_num, company, notes)
-client.save_clients()
+#client.save_clients()
 
-print('\n✅ Client Added Succesfully!')
+print('\n✅ Client Added Succesfully!\n')
  
 # Viewing All Clients 
 def veiw_all_clients(filename='clients.txt'):
