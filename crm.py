@@ -17,39 +17,28 @@ class Clients():
         with open(filename, 'a') as client_file:
             line =  f'{self.name} | {self.email} | {self.phone} | {self.company} | {self.notes}\n'
             client_file.write(line)
- 
+
+# Client Adding Section
 def add_client():
     while True:
-        name = input('What is the name of the client?').strip().upper()
-        try:
-            type(name) == str 
+        name = input('What is the name: ').strip()
+        if name.isalpha():
             break
-        except ValueError:
-            print('Please provide the right input!')
+        print('Please, Provide the right input!')
         
     while True:
         phone_num = input('What is the Phone number?')
-        try:
-            break 
-        except:
-            pass
+        if phone_num.isdigit():
+            break
+        print('Please, Provide the right input!')
             
     while True:
-        company = input('What is the Phone number?')
-        try:
-            pass
+        company = input('What is the Company name?').strip()
+        if company.isalnum():
             break
-        except:
-            pass
-    while True:
-        notes = input('What is the Phone number?')
-        try:
-            pass
-            break
-        except:
-            pass
-        break 
-
+        print('Company name can only include string and numbers!')
+ 
+        notes = input('What Notes would you like to add?').strip()
 
     return name, phone_num, company, notes 
 
@@ -58,8 +47,9 @@ name, phone_num, company, notes = add_client()
 client = Clients(name, phone_num, company, notes)
 client.save_clients()
 
-
-
+print('\n✅ Client Added Succesfully!')
+ 
+# Viewing All Clients 
 def veiw_all_clients(filename='clients.txt'):
     try:
       with open(filename, 'r') as file:
@@ -72,8 +62,6 @@ def veiw_all_clients(filename='clients.txt'):
     except FileNotFoundError:
         print('Could not acces file!')
           
-def edit_clients():
-    pass 
 def search_clients():
     pass
 
@@ -81,14 +69,13 @@ def manage_clients():
     def add_client(): pass
     def veiw_all_clients(): pass
     def search_clients(): pass
-    def edit_client(): pass
+   
     
     sub_choice_mapping = { 
                 1: add_client,
                 2: veiw_all_clients,
                 3: search_clients,
-                4: edit_client,
-                5: None 
+                4: None 
                 }
     
     while True: 
