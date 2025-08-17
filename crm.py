@@ -46,9 +46,9 @@ def add_client():
 
     return name, phone_num, company, notes 
 
-name, phone_num, company, notes = add_client()
+# name, phone_num, company, notes = add_client() 
 
-client = Clients(name, phone_num, company, notes)
+# client = Clients(name, phone_num, company, notes) 
 #client.save_clients()
 
 print('\n✅ Client Added Succesfully!\n')
@@ -137,7 +137,7 @@ def main_menu():
         except ValueError:
             print('Please, provide the right input!')
 
-        manage_clients()
+        #manage_clients()
                 
 
 main_menu()
