@@ -17,7 +17,7 @@ class Clients():
         with open(filename, 'a') as client_file:
             line =  f'{self.name} | {self.email} | {self.phone} | {self.company} | {self.notes}\n'
             client_file.write(line)
-
+'''This Functions are Under Manage Functions'''
 # Client Adding Section
 def add_client():
     while True:
@@ -46,28 +46,57 @@ def add_client():
 
     return name, phone_num, company, notes 
 
-# name, phone_num, company, notes = add_client() 
-
-# client = Clients(name, phone_num, company, notes) 
-#client.save_clients()
+name, phone_num, company, notes = add_client() 
+client = Clients(name, phone_num, company, notes) 
+client.save_clients()
 
 print('\n✅ Client Added Succesfully!\n')
  
 # Viewing All Clients 
+
+'''Here in this function we will both read the clients and also save them
+in a client list for later use for searching'''
+
 def veiw_all_clients(filename='clients.txt'):
+    client_list = []
     try:
       with open(filename, 'r') as file:
-        lines = file.readlines()
-        if not lines:
-            print('No clinets are found.')
-        for line in lines:
-            name, phone_num, company, notes = line.strip().split('-', 3)
-            print(f'{name} | {phone_num} | {company} | {notes}')
+            lines = file.readlines()
+            if not lines:
+                print('No clinets are found.')
+            for line in lines:
+                name, phone_num, company, notes = line.strip().split('-', 3)
+                client = {
+                    "name": name,
+                    "phone": phone_num,
+                    "company": company,
+                    "notes": notes,
+                }
+                client_list.append(client)
+
+                print(f'{name} | {phone_num} | {company} | {notes}')
+
+      return client_list
     except FileNotFoundError:
         print('Could not acces file!')
           
-def search_clients():
-    pass
+def search_clients(client_list):
+        while True: 
+            key_word = input('Input the first name of the client key word for searching.')
+            if key_word.isalpha():
+                found = False
+                for client in client_list:
+                    first_name = client['name'].split()[0]
+                    if first_name.lower() == key_word.lower():
+                        print(f'{client["name"]} | {client["phone"]} | {client["company"]} | {client["notes"]}')
+                        found = True
+                if not found:
+                    print('Client not found.')
+                break
+            else: 
+                print('Only Alphabetic input is allowed!')
+
+'''So this two functions will work together to provide the desired out come, will study them'''
 
 def manage_clients():
     def add_client(): pass
