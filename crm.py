@@ -46,17 +46,12 @@ def add_client():
     notes = input('What Notes would you like to add?').strip()
 
     return name, phone_num, company, notes 
-
-name, phone_num, company, notes = add_client() 
-client = Clients(name, phone_num, company, notes) 
-client.save_clients()
-
-print('\n✅ Client Added Succesfully!\n')
  
 # Viewing All Clients 
 
-'''Here in this function we will both read the clients and also save them
-in a client list for later use for searching'''
+'''Here in the function below we will both read the 
+   clients and also save them in a client list for later
+   use for searching'''
 
 def veiw_all_clients(filename='clients.txt'):
     client_list = []
@@ -97,14 +92,37 @@ def search_clients(client_list):
             else: 
                 print('Only Alphabetic input is allowed!')
 
-'''So this two functions will work together to provide the desired out come'''
+# So the above two functions will work together to provide the desired out come
+
+''' Here I used helper function, becuase there was an issue 
+    regarding the add_clients function -- it always shows the add
+    client file input first, but the right thing should be the main
+    menu ''' 
+
+def handle_add_client(): # Add clients helper function
+    name, phone_num, company, notes = add_client() 
+    client = Clients(name, phone_num, company, notes) 
+    client.save_clients()
+
+print('\n✅ Client Added Succesfully!\n')
+
+def handle_view_clients(): # View helper function
+    veiw_all_clients()
+
+def handle_search_clients(): # Search helper function
+    client_list = veiw_all_clients()
+    if client_list:
+        search_clients(client_list)
+
+''' since we used helper function, we should change the options 
+    for the main menu function'''
 
 def manage_clients():
 
     sub_choice_mapping = { 
-                1: add_client,
-                2: veiw_all_clients,
-                3: search_clients,
+                1: handle_add_client,
+                2: handle_view_clients,
+                3: handle_search_clients,
                 4: None 
                 }
     
@@ -113,7 +131,6 @@ def manage_clients():
                 ' Add Clients',
                 ' Veiw All Clients',
                 ' Searching Clients',
-                ' Edit Clients',
                 ' Back to Main Menu'
                 ]
         
@@ -125,7 +142,7 @@ def manage_clients():
             action = sub_choice_mapping.get(sub_choice_input)
             if action:
                 action()
-            elif sub_choice_input == 5:
+            elif sub_choice_input == 4:
                 break
             else:
                 print('Please Choose a valid option.')
