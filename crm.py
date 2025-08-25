@@ -17,6 +17,7 @@ class Clients():
         with open(filename, 'a') as client_file:
             line =  f'{self.name} | {self.email} | {self.phone} | {self.company} | {self.notes}\n'
             client_file.write(line)
+
 '''This Functions are Under Manage Functions'''
 # Client Adding Section
 def add_client():
@@ -96,14 +97,10 @@ def search_clients(client_list):
             else: 
                 print('Only Alphabetic input is allowed!')
 
-'''So this two functions will work together to provide the desired out come, will study them'''
+'''So this two functions will work together to provide the desired out come'''
 
 def manage_clients():
-    def add_client(): pass
-    def veiw_all_clients(): pass
-    def search_clients(): pass
-   
-    
+
     sub_choice_mapping = { 
                 1: add_client,
                 2: veiw_all_clients,
@@ -122,10 +119,9 @@ def manage_clients():
         
         for index, choice in enumerate(sub_choices, start=1):
             print(f'{index}: {choice}')
-        sub_choice_input = int(input('What Do you want to manage'))
-
+      
         try: 
-            sub_choice_input = int(input('What Do you want to manage'))
+            sub_choice_input = int(input('What Do you want to manage? '))
             action = sub_choice_mapping.get(sub_choice_input)
             if action:
                 action()
@@ -151,14 +147,14 @@ def main_menu():
                     ' Manage Projects',
                     ' Create Invoices',
                     ' Record Payments',
-                    ' Exit']
+                     ]
         
         for index, option in enumerate(main_choices, start=1):
             print(f'{index}: {option}')
 
         try: 
             choice_input = int(input('Hello, what do you want to do?'))
-            action = main_choices.get(choice_input)
+            action = main_function_mapping.get(choice_input)
             if action:
                 action()
             else:
@@ -166,8 +162,6 @@ def main_menu():
         except ValueError:
             print('Please, provide the right input!')
 
-        #manage_clients()
-                
-
+     
 main_menu()
             
