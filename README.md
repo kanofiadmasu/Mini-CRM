@@ -14,4 +14,4 @@ The project is not completed but it will have the following features
   4. Creating Invoices
   5. Recording Payments
 
- I Plan to improve the efficeincy and functionaliy of the app, while still learning more about software development and also the python programming language. 
+ I plan to improve the efficeincy and functionaliy of the app, while still learning more about software development and also the python programming language. 
