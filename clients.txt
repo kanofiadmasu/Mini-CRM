@@ -1,2 +1,6 @@
+<<<<<<< Updated upstream
 Kanofi | Kanofi.Enligthen@gmail.com | 443 -2  | Enligthen | nothing
 gg | gg.stripe@gmail.com | 432 | stripe | Fintech
+=======
+Kanofi | Kanofi.Enlighten@gmail.com | 433 | Enlighten | nothing
+>>>>>>> Stashed changes

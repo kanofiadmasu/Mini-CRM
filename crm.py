@@ -101,8 +101,8 @@ def search_clients(client_list):
     menu ''' 
 
 def handle_add_client(): # Add clients helper function
-    name, email, phone_num, company, notes = add_client() 
-    client = Clients(name, email, phone_num, company, notes) 
+    name, phone_num, company, notes = add_client() 
+    client = Clients(name, phone_num, company, notes) 
     client.save_clients()
     print('\n✅ Client Added Succesfully!\n')
 
