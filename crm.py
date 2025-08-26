@@ -22,7 +22,7 @@ class Clients():
 # Client Adding Section
 def add_client():
     while True:
-        name = input('What is the name: ').strip()
+        name = input('What is the name of the client?: ').strip()
         if name.isalpha():
             break
         print('Please, Provide the right input!')
@@ -61,9 +61,10 @@ def veiw_all_clients(filename='clients.txt'):
             if not lines:
                 print('No clinets are found.')
             for line in lines:
-                name, phone_num, company, notes = line.strip().split('-', 3)
+                name, email, phone_num, company, notes = line.strip().split('|', 4)
                 client = {
                     "name": name,
+                    "email": email,
                     "phone": phone_num,
                     "company": company,
                     "notes": notes,
@@ -100,11 +101,10 @@ def search_clients(client_list):
     menu ''' 
 
 def handle_add_client(): # Add clients helper function
-    name, phone_num, company, notes = add_client() 
-    client = Clients(name, phone_num, company, notes) 
+    name, email, phone_num, company, notes = add_client() 
+    client = Clients(name, email, phone_num, company, notes) 
     client.save_clients()
-
-print('\n✅ Client Added Succesfully!\n')
+    print('\n✅ Client Added Succesfully!\n')
 
 def handle_view_clients(): # View helper function
     veiw_all_clients()
@@ -138,7 +138,7 @@ def manage_clients():
             print(f'{index}: {choice}')
       
         try: 
-            sub_choice_input = int(input('What Do you want to manage? '))
+            sub_choice_input = int(input('What do you want to manage? Choose form the above choice! '))
             action = sub_choice_mapping.get(sub_choice_input)
             if action:
                 action()
@@ -159,7 +159,7 @@ def main_menu():
     }
 
     while True:
-        main_choices =[
+        main_choices =[ 
                     ' Manage Clients',
                     ' Manage Projects',
                     ' Create Invoices',
