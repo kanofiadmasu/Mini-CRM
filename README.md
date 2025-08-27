@@ -17,7 +17,7 @@ The project is not completed but it will have the following features
  I plan to improve the efficeincy and functionaliy of the app, while still learning more about software development and also the python programming language. 
 
 ## Project history
-**Aug 26/2025**   
+***Aug 26/2025***   
 
 Today I added a Deletion feature that will enable users to select and delete the selected client. This function or feature is under the manage clients section. 
 ## The main concepts used in this function is:
@@ -25,4 +25,8 @@ Today I added a Deletion feature that will enable users to select and delete the
       2. Error/Exception Handling-- Here we used this to handle errors that can rise from corruption of loss of the text file. 
       3. Conditonals-- to compare and excute the input of user.  
 
-This are the main concepts used to build this feature.  
+This are the main concepts used to build this feature. And this is the last feature of the manage clients section.  
+
+***Aug 27/2025*** 
+
+Today I am going to add a feature for the manage projects section. In this scetion I will add important features like, linking projects to clients, flagging projects as 'Started', 'Not-started', and 'Completed'. 
