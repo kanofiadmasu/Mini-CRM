@@ -80,7 +80,7 @@ def veiw_all_clients(filename='clients.txt'):
 # Searching Clients
 def search_clients(client_list):
         while True: 
-            key_word = input('Input the first name of the client key word for searching.')
+            key_word = input('Input the first name of the client as key word for searching.')
             if key_word.isalpha():
                 found = False
                 for client in client_list:
@@ -89,10 +89,10 @@ def search_clients(client_list):
                         print(f'{client["name"]} | {client["phone"]} | {client["company"]} | {client["notes"]}')
                         found = True
                 if not found:
-                    print('Client not found.')
+                    print('Client not found.\n')
                 break
             else: 
-                print('Only Alphabetic input is allowed!')
+                print('\nOnly Alphabetic input is allowed!')
 # So the above two functions will work together to provide the desired out come
 
 # Deleteing Clients
@@ -190,6 +190,9 @@ def manage_clients():
 
         except ValueError:
             print('Please, Provide the right input!')
+
+'''End of Managing Client Section, Next section is project managing'''
+
             
 # Main menu section 
 
