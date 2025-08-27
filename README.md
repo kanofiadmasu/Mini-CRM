@@ -18,7 +18,7 @@ The project is not completed but it will have the following features
 
 # Project history
 Aug 26/2025 -- Today I added a Deletion feature that will enable users to select and delete the selected client. This function or feature is under the manage clients section. 
-##The main concepts used in this function is:
+## The main concepts used in this function is:
       1. File Handling-- For reading files, and also for updating file using write mode after a client is deleted. 
       2. Error/Exception Handling-- Here we used this to handle errors that can rise from corruption of loss of the text file. 
       3. Conditonals-- to compare and excute the input of user.  
