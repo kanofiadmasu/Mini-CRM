@@ -176,7 +176,7 @@ def manage_clients():
                 ]
         
         for index, choice in enumerate(sub_choices, start=1):
-            print(f'{index}: {choice}')
+            print(f'\n{index}: {choice}')
       
         try: 
             sub_choice_input = int(input('What do you want to manage? Choose form the above choice! '))
@@ -208,7 +208,7 @@ def main_menu():
                      ]
         
         for index, option in enumerate(main_choices, start=1):
-            print(f'{index}: {option}')
+            print(f'\n{index}: {option}')
 
         try: 
             choice_input = int(input('Hello, what do you want to do?'))
