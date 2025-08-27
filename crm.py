@@ -176,10 +176,10 @@ def manage_clients():
                 ]
         
         for index, choice in enumerate(sub_choices, start=1):
-            print(f'\n{index}: {choice}')
+            print(f'{index}: {choice}\n')
       
         try: 
-            sub_choice_input = int(input('What do you want to manage? Choose form the above choice! '))
+            sub_choice_input = int(input('What do you want to manage? Choose form the above choices! '))
             action = sub_choice_mapping.get(sub_choice_input)
             if action:
                 action()
@@ -208,10 +208,10 @@ def main_menu():
                      ]
         
         for index, option in enumerate(main_choices, start=1):
-            print(f'\n{index}: {option}')
+            print(f'{index}: {option}\n')
 
         try: 
-            choice_input = int(input('Hello, what do you want to do?'))
+            choice_input = int(input('Hello, what do you want to do? '))
             action = main_function_mapping.get(choice_input)
             if action:
                 action()
