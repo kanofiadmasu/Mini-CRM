@@ -22,7 +22,7 @@ class Clients():
 # Client Adding Section
 def add_client():
     while True:
-        name = input('What is the name of the client?: ').strip()
+        name = input('What is the name of the client? ').strip()
         if name.isalpha():
             break
         print('Please, Provide the right input!')
@@ -32,18 +32,18 @@ def add_client():
         return bool(re.match(pattern, phone_num))
         
     while True:
-        phone_num = input('What is the Phone number?')
+        phone_num = input('What is the Phone number? ')
         if is_valid_phone(phone_num):
             break
         print('Please, Provide the right input!')
             
     while True:
         company = input('What is the Company name?').strip()
-        if company.isalpha():
+        if re.match(r'^[A-Za-z0-9\s\-]+$', company):
             break
-        print('Company name can only include string and numbers!')
+        print('Company name can only include string, numbers, sapces, and hyphen!')
  
-    notes = input('What Notes would you like to add?').strip()
+    notes = input('What Notes would you like to add? ')
 
     return name, phone_num, company, notes 
  
@@ -76,7 +76,8 @@ def veiw_all_clients(filename='clients.txt'):
       return client_list
     except FileNotFoundError:
         print('Could not acces file!')
-          
+
+# Searching Clients
 def search_clients(client_list):
         while True: 
             key_word = input('Input the first name of the client key word for searching.')
@@ -92,8 +93,43 @@ def search_clients(client_list):
                 break
             else: 
                 print('Only Alphabetic input is allowed!')
-
 # So the above two functions will work together to provide the desired out come
+
+# Deleteing Clients
+def delete_client(filename='clients.txt'):
+    try:
+        with open(filename, 'r') as file:
+            clients_list = file.readlines()
+        if not clients_list:
+            print('❌No clients found to delete!')
+            return 
+        for index, line in enumerate(clients_list, start= 1):
+            print(f'{index}, {line.strip()}')
+    except FileNotFoundError:
+        print('The file is not found')
+        return # So that a function doesn't try to proceed with the execution
+
+    while True:
+        user_deletion_input = input('Which client would you like to delete? Choose the associated number ')
+        try: 
+            user_deletion_input = int(user_deletion_input)
+            if 0 < user_deletion_input <= len(clients_list):
+                break 
+            else: 
+                print('Please choose with in the range of the list')
+        except ValueError:
+                print('You provided the wrong value, Input the valid value')
+            
+    deleted_client = clients_list.pop(user_deletion_input - 1)
+
+        #then after deletion you have to update the list so you are going 
+        #to write it using write mode in python
+
+    with open(filename, 'w') as file:
+        for line in clients_list:
+            file.write(line)
+
+    print(f'✅Client deleted succecssfully:, {deleted_client.strip()} ')
 
 ''' Here I used helper function, becuase there was an issue 
     regarding the add_clients function -- it always shows the add
@@ -114,6 +150,9 @@ def handle_search_clients(): # Search helper function
     if client_list:
         search_clients(client_list)
 
+def handle_client_deletion():
+    delete_client()
+
 ''' since we used helper function, we should change the options 
     for the main menu function'''
 
@@ -123,7 +162,8 @@ def manage_clients():
                 1: handle_add_client,
                 2: handle_view_clients,
                 3: handle_search_clients,
-                4: None 
+                4: handle_client_deletion,
+                5: None 
                 }
     
     while True: 
@@ -131,6 +171,7 @@ def manage_clients():
                 ' Add Clients',
                 ' Veiw All Clients',
                 ' Searching Clients',
+                ' Delete a client',
                 ' Back to Main Menu'
                 ]
         
@@ -142,7 +183,7 @@ def manage_clients():
             action = sub_choice_mapping.get(sub_choice_input)
             if action:
                 action()
-            elif sub_choice_input == 4:
+            elif sub_choice_input == 5: # Because you'll be adding a deletion features
                 break
             else:
                 print('Please Choose a valid option.')
