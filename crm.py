@@ -13,6 +13,7 @@ class Clients():
     
     def __repr__(self):
         return f'{self.name} | {self.email} | {self.phone} | {self.company} | {self.notes}'
+    
     def save_clients(self, filename='clients.txt'):
         with open(filename, 'a') as client_file:
             line =  f'{self.name} | {self.email} | {self.phone} | {self.company} | {self.notes}\n'
@@ -92,7 +93,7 @@ def search_clients(client_list):
                     print('Client not found.\n')
                 break
             else: 
-                print('\nOnly Alphabetic input is allowed!')
+                print('\n Only Alphabetic input is allowed!')
 # So the above two functions will work together to provide the desired out come
 
 # Deleteing Clients
@@ -133,7 +134,7 @@ def delete_client(filename='clients.txt'):
 
 ''' Here I used helper function, becuase there was an issue 
     regarding the add_clients function -- it always shows the add
-    client file input first, but the right thing should be the main
+    client input request first, but the right thing should be the main
     menu ''' 
 
 def handle_add_client(): # Add clients helper function
@@ -194,8 +195,26 @@ def manage_clients():
 '''End of Managing Client Section, Next section is project managing'''
 
 #Project Management section
+def add_projects():
+  
+ pass 
+def view_projects():
+    pass
+def update_project_status():    
+    pass
+def delete_project():   
+    pass
+
 
 def manage_projects():
+    project_function_mapping = {
+                1: add_projects,
+                2: view_projects,
+                3: update_project_status,
+                4: delete_project,
+                5: None
+    }
+
     project_choices = [
                     'Add Projects to Client',
                     'View Client Projects',
@@ -203,6 +222,7 @@ def manage_projects():
                     'Delete a Project',
                     'Back to main Menu'
                     ]
+    
 # Main menu section 
 
 def main_menu():
