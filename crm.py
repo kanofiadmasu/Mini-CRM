@@ -193,7 +193,16 @@ def manage_clients():
 
 '''End of Managing Client Section, Next section is project managing'''
 
-            
+#Project Management section
+
+def manage_projects():
+    project_choices = [
+                    'Add Projects to Client',
+                    'View Client Projects',
+                    'Update Project Status',
+                    'Delete a Project',
+                    'Back to main Menu'
+                    ]
 # Main menu section 
 
 def main_menu():
@@ -221,8 +230,8 @@ def main_menu():
             else:
                 print('Please, choose the right number')
         except ValueError:
-            print('Please, provide the right input!')
+            print('Please, provide the right input!')            
 
-     
 main_menu()
-            
+
+
