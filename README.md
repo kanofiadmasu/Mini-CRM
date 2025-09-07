@@ -27,6 +27,4 @@ Today I added a Deletion feature that will enable users to select and delete the
 
 This are the main concepts used to build this feature. And this is the last feature of the manage clients section.  
 
-***Aug 27/2025*** 
-
-Today I am going to add a feature for the manage projects section. In this scetion I will add important features like, linking projects to clients, flagging projects as 'Started', 'Not-started', and 'Completed'. 
+ 
