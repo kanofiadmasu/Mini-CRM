@@ -94,13 +94,17 @@ def add_client():
    clients and also save them in a client list for later
    use for searching'''
 
-def veiw_all_clients(filename='clients.txt'):
+def view_all_clients(filename='clients.txt'):
     client_list = []
     try:
+      
       with open(filename, 'r') as file:
             lines = file.readlines()
+
             if not lines:
                 print('No clinets are found.')
+                return []
+
             for line in lines:
                 name, email, phone_num, company, notes = line.strip().split('|', 4)
                 client = {
@@ -116,7 +120,9 @@ def veiw_all_clients(filename='clients.txt'):
 
       return client_list
     except FileNotFoundError:
-        print('Could not acces file!')
+        print('File is not forund')
+        return []
+    
 
 # Searching Clients
 def search_clients(client_list):
@@ -184,10 +190,10 @@ def handle_add_client(): # Add clients helper function
     print('\n✅ Client Added Succesfully!\n')
 
 def handle_view_clients(): # View helper function
-    veiw_all_clients()
+ view_all_clients()
 
 def handle_search_clients(): # Search helper function
-    client_list = veiw_all_clients()
+    client_list = view_all_clients()
     if client_list:
         search_clients(client_list)
 
@@ -245,7 +251,7 @@ def client_verification(client_list): #This is helper function for the add proje
     while True:
         user_input = input('Enter client name or (type \"menu" to go back) ' ).strip()
         
-        #Allowing to retunr to main menu
+        #Allowing to return to main menu
         if user_input.lower() == "menu":
             print('Returning to main menu...')
             return None
@@ -258,7 +264,7 @@ def client_verification(client_list): #This is helper function for the add proje
         for client in client_list: 
             if client['name'].lower() == user_input.lower():
                 print('Client exists, Lets proceed to add project!')
-                return client
+                return client['name'] 
         print('Client Not found. Try agian')
 
         #Add projcets function
@@ -273,14 +279,15 @@ def add_projects(client_list):
             project_type_input = input('What is the Project type? ').strip() 
             #It can be anything(it can be represented with a number or anything)
 
-            allowed_statuses = ['Not Started', 'Started', 'Completed']
+            allowed_statuses = ['NOT STARTED', 'STARTED', 'COMPLETED']
             while True: 
-                status_input = input('What is the status of the project? choose form').strip()
+                status_input = input('What is the status of the project? choose from').strip().upper()
                 if status_input not in allowed_statuses:
                     print('Invalid Status! Please choose from', ", ".join(allowed_statuses))
                     continue
                 else: 
                     break
+       
 
             while True:
                     project_deadline = input('When is the dedline?(dd/mm/yyyy) ')
@@ -308,10 +315,26 @@ def update_project_status():
 def delete_project():   
     pass
 
+'''Project managment requires a helper function '''
+
+def handle_add_projects():
+    client_list = view_all_clients() 
+    if not client_list:
+        print('No clients found. Please add clients first.')
+        return
+    result = add_projects(client_list)
+    if not result:
+        return 
+    client, project_type_input, status_input, project_deadline = result
+    project = Projects(client, project_type_input, status_input, project_deadline)
+    project.saving_projects()
+    print('\n✅ Project Added Succesfully!\n')
+
+
 
 def manage_projects():
     project_function_mapping = {
-                1: add_projects,
+                1: handle_add_projects,
                 2: view_projects,
                 3: update_project_status,
                 4: delete_project,
