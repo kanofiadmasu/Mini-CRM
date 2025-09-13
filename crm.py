@@ -234,7 +234,8 @@ def manage_clients():
 
 '''End of Managing Client Section, Next section is project managing'''
 
-#Project Management section
+# PROJET MANAGMENT SECTION
+
 '''Client Verfication Fucntion for adding projects'''
 def client_verification(client_list): #This is helper function for the add projects function
     if  not client_list:
@@ -284,7 +285,7 @@ def add_projects(client_list):
             while True:
                     project_deadline = input('When is the dedline?(dd/mm/yyyy) ')
                     try:
-                        datetime.strptime(project_deadline, "%d/%m/%y")
+                        datetime.strptime(project_deadline, "%d/%m/%Y")
                         break
                     except ValueError:
                         print('Invalid date format. Please use dd/mm/yyyy')
