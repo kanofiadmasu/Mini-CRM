@@ -62,12 +62,15 @@ class Projects: #Project adding and creation
 '''This Functions are Under Manage Functions'''
 # Client Adding Section
 def add_client():
+    def is_valid_name(name):
+        return bool(re.match(r"^[A-Za-z0-9\s\-\']+$", name.strip()))
+
     while True:
         name = input('What is the name of the client? ').strip()
-        if name.isalpha():
+        if is_valid_name(name):
             break
-        print('Please, Provide the right input!')
-
+        print('Invalid name. Please provide a correct name')
+    
     def is_valid_phone(phone_num):
         pattern = r'^[\+]?\d[\d\s\-]*$'
         return bool(re.match(pattern, phone_num))
@@ -276,41 +279,38 @@ def add_projects(client_list):
     choice = input('Add project to new client? Yes/No: ').strip().lower()
     if choice == 'yes':
         print('Please add client from main menu first.')
-        return 
+        return None
+    
     elif choice == 'no':
         client = client_verification(client_list)
-        if client:
-            project_type_input = input('What is the Project type? ').strip() 
-            #It can be anything(it can be represented with a number or anything)
+        if not client:
+            return None
+    
+        project_type = input('What is the Project type? ').strip() 
 
-            allowed_statuses = ['NOT STARTED', 'STARTED', 'COMPLETED']
-            while True: 
-                status_input = input('What is the status of the project? choose from').strip().upper()
-                if status_input not in allowed_statuses:
-                    print('Invalid Status! Please choose from', ", ".join(allowed_statuses))
-                    continue
-                else: 
+        allowed_statuses = ['NOT STARTED', 'STARTED', 'COMPLETED']
+        while True: 
+            project_status = input('What is the status of the project? choose from').strip().upper()
+            if project_status not in allowed_statuses:
+                print('Invalid Status! Please choose from', ", ".join(allowed_statuses))
+                continue
+            else: 
+                break
+    
+
+        while True:
+                project_deadline = input('When is the deadline?(dd/mm/yyyy) ')
+                try:
+                    datetime.strptime(project_deadline, "%d/%m/%Y")
                     break
-       
-
-            while True:
-                    project_deadline = input('When is the deadline?(dd/mm/yyyy) ')
-                    try:
-                        datetime.strptime(project_deadline, "%d/%m/%Y")
-                        break
-                    except ValueError:
-                        print('Invalid date format. Please use dd/mm/yyyy')
+                except ValueError:
+                    print('Invalid date format. Please use dd/mm/yyyy')
     else:
         print('Invalid Choice. Please enter Yes/No.')
  
 
-    return client, project_type_input, status_input, project_deadline 
-
-
-# client, project_type_input, status_input, project_deadline = add_projects(client_list)
-# project = Projects(client, project_type_input, status_input, project_deadline)
-# project.saving_projects()
-# print('\n✅ Project Added Succesfully!\n')
+    return client, project_type, project_status, project_deadline 
+ 
 
 def view_projects():
     pass
@@ -329,8 +329,8 @@ def handle_add_projects():
     result = add_projects(client_list)
     if not result:
         return 
-    client, project_type_input, status_input, project_deadline = result
-    project = Projects(client, project_type_input, status_input, project_deadline)
+    client, project_type, project_status, project_deadline = result
+    project = Projects(client, project_type, project_status, project_deadline)
     project.saving_projects()
     print('\n✅ Project Added Succesfully!\n')
 
@@ -353,11 +353,19 @@ def manage_projects():
         for index, project_choice in enumerate(project_choices, start=1):
             print(f'{index}: {project_choice}\n')
 
+        user_manage_input = input('What do you want to manage in projects? ')
+        if not user_manage_input:
+            print('Input cannot be empty!')
+            continue
+        
+        print(f'{user_manage_input}') #Temporary debugging line
         try:
-            user_manage_input =  int(input('What do you want to manage in projects? '))
+            user_manage_input = int(user_manage_input)
             action = project_function_mapping.get(user_manage_input)
             if action:
                 action()
+            elif user_manage_input == 5:
+                break
             else:
                 print('Please choose the right number ')
         except ValueError:
