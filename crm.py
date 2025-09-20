@@ -102,7 +102,7 @@ def view_all_clients(filename='clients.txt'):
             lines = file.readlines()
 
             if not lines:
-                print('No clinets are found.')
+                print('No clients are found.')
                 return []
 
             for line in lines:
@@ -176,7 +176,7 @@ def delete_client(filename='clients.txt'):
         for line in clients_list:
             file.write(line)
 
-    print(f'✅Client deleted succecssfully:, {deleted_client.strip()} ')
+    print(f'✅Client deleted successfully: {deleted_client.strip()} ')
 
 ''' Here I used helper function, becuase there was an issue 
     regarding the add_clients function -- it always shows the add
@@ -190,7 +190,7 @@ def handle_add_client(): # Add clients helper function
     print('\n✅ Client Added Succesfully!\n')
 
 def handle_view_clients(): # View helper function
- view_all_clients()
+    view_all_clients()
 
 def handle_search_clients(): # Search helper function
     client_list = view_all_clients()
@@ -216,9 +216,9 @@ def manage_clients():
     while True: 
         sub_choices = [
                 ' Add Clients',
-                ' Veiw All Clients',
-                ' Searching Clients',
-                ' Delete a client',
+                ' View All Clients',
+                ' Search Clients',
+                ' Delete a Client',
                 ' Back to Main Menu'
                 ]
         
@@ -261,11 +261,15 @@ def client_verification(client_list): #This is helper function for the add proje
             continue
         #There is another function that returns the clients list
 
+        client_name = None  
         for client in client_list: 
-            if client['name'].lower() == user_input.lower():
+            client_name = client['name']
+            if client_name.lower() == user_input.lower():
                 print('Client exists, Lets proceed to add project!')
                 return client['name'] 
         print('Client Not found. Try agian')
+        if client_name:
+            print(client_name.lower())
 
         #Add projcets function
 def add_projects(client_list):
@@ -290,7 +294,7 @@ def add_projects(client_list):
        
 
             while True:
-                    project_deadline = input('When is the dedline?(dd/mm/yyyy) ')
+                    project_deadline = input('When is the deadline?(dd/mm/yyyy) ')
                     try:
                         datetime.strptime(project_deadline, "%d/%m/%Y")
                         break
@@ -330,8 +334,6 @@ def handle_add_projects():
     project.saving_projects()
     print('\n✅ Project Added Succesfully!\n')
 
-
-
 def manage_projects():
     project_function_mapping = {
                 1: handle_add_projects,
@@ -361,9 +363,7 @@ def manage_projects():
         except ValueError:
             print('Please provide the right input! ')
             continue
-        
-  
-    
+          
 # Main menu section 
 
 def main_menu():
