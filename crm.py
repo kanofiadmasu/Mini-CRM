@@ -2,6 +2,7 @@ from datetime import datetime
 import re 
 import json
 
+print('\nWelcome to the CRM Systme for freelancers!')
 class Clients(): 
     def __init__(self, name, phone_num, company, notes): 
         self.name = name
@@ -296,7 +297,6 @@ def add_projects(client_list):
                 continue
             else: 
                 break
-    
 
         while True:
                 project_deadline = input('When is the deadline?(dd/mm/yyyy) ')
@@ -350,27 +350,31 @@ def manage_projects():
                         'Delete a Project',
                         'Back to main Menu'
                         ] 
+        
         for index, project_choice in enumerate(project_choices, start=1):
             print(f'{index}: {project_choice}\n')
 
-        user_manage_input = input('What do you want to manage in projects? ')
+        user_manage_input = input('\nWhat do you want to manage in projects? ')
+
         if not user_manage_input:
-            print('Input cannot be empty!')
+            print('Input cannot be empty!\n')
             continue
-        
         print(f'{user_manage_input}') #Temporary debugging line
+
         try:
             user_manage_input = int(user_manage_input)
-            action = project_function_mapping.get(user_manage_input)
-            if action:
-                action()
-            elif user_manage_input == 5:
-                break
+        except ValueError:  
+            print('Please, Provide the right input type(INTEGER)!')
+        
+        if user_manage_input == 5:
+            break  
+        elif user_manage_input in project_function_mapping:
+            calling = project_function_mapping[user_manage_input]
+            if calling: #For security 
+                calling()
             else:
-                print('Please choose the right number ')
-        except ValueError:
-            print('Please provide the right input! ')
-            continue
+                print('\nPlease choose the right option between 1-5')
+  
           
 # Main menu section 
 
@@ -402,6 +406,5 @@ def main_menu():
         except ValueError:
             print('Please, provide the right input!')            
 
-main_menu()
-
-
+if __name__ == '__main__':
+    main_menu() 
