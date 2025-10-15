@@ -173,7 +173,7 @@ def delete_client(filename='clients.txt'):
             
     deleted_client = clients_list.pop(user_deletion_input - 1)
 
-        #then after deletion you have to update the list so you are going 
+        #then after deletion we have to update the list so we are going 
         #to write it using write mode in python
 
     with open(filename, 'w') as file:
