@@ -60,7 +60,7 @@ class Projects: #Project adding and creation
         return projects_list
     
     
-'''This Functions are Under Manage Functions'''
+'''This Functions are Under Manage client Functions'''
 # Client Adding Section
 def add_client():
     def is_valid_name(name):
@@ -208,7 +208,6 @@ def handle_client_deletion():
     for the main menu function'''
 
 def manage_clients():
-
     sub_choice_mapping = { 
                 1: handle_add_client,
                 2: handle_view_clients,
@@ -245,143 +244,48 @@ def manage_clients():
 '''End of Managing Client Section, Next section is project managing'''
 
 # PROJET MANAGMENT SECTION
-
-'''Client Verfication Fucntion for adding projects'''
-def client_verification(client_list): #This is helper function for the add projects function
-    if  not client_list:
-        print('Clients list is empty, Please add clients first!')
-        return None
-    
-    while True:
-        user_input = input('Enter client name or (type \"menu" to go back) ' ).strip()
-        
-        #Allowing to return to main menu
-        if user_input.lower() == "menu":
-            print('Returning to main menu...')
-            return None
-        
-        if not user_input or user_input.isdigit():
-            print('Invalid Input! Please enter the name of the client for checking!')
+def add_projects(): 
+    while True: 
+        user_choice = input('Are you adding project to existing client or a new client? Existing/New ').lower().isalpha()
+        if not user_choice:
+            print('Input Cannot be empty choose either Existing or New!')
             continue
-        #There is another function that returns the clients list
-
-        client_name = None  
-        for client in client_list: 
-            client_name = client['name']
-            if client_name.lower() == user_input.lower():
-                print('Client exists, Lets proceed to add project!')
-                return client['name'] 
-        print('Client Not found. Try agian')
-        if client_name:
-            print(client_name.lower())
-
-        #Add projcets function
-def add_projects(client_list):
-    choice = input('Add project to new client? Yes/No: ').strip().lower()
-    if choice == 'yes':
-        print('Please add client from main menu first.')
-        return None
-    
-    elif choice == 'no':
-        client = client_verification(client_list)
-        if not client:
-            return None
-    
-        project_type = input('What is the Project type? ').strip() 
-
-        allowed_statuses = ['NOT STARTED', 'STARTED', 'COMPLETED']
-        while True: 
-            project_status = input('What is the status of the project? choose from').strip().upper()
-            if project_status not in allowed_statuses:
-                print('Invalid Status! Please choose from', ", ".join(allowed_statuses))
-                continue
-            else: 
-                break
-
-        while True:
-                project_deadline = input('When is the deadline?(dd/mm/yyyy) ')
-                try:
-                    datetime.strptime(project_deadline, "%d/%m/%Y")
-                    break
-                except ValueError:
-                    print('Invalid date format. Please use dd/mm/yyyy')
-    else:
-        print('Invalid Choice. Please enter Yes/No.')
- 
-
-    return client, project_type, project_status, project_deadline 
- 
-
-def view_projects():
-    pass
-def update_project_status():    
-    pass
-def delete_project():   
-    pass
-
-'''Project managment requires a helper function '''
-
-def handle_add_projects():
-    client_list = view_all_clients() 
-    if not client_list:
-        print('No clients found. Please add clients first.')
-        return
-    result = add_projects(client_list)
-    if not result:
-        return 
-    client, project_type, project_status, project_deadline = result
-    project = Projects(client, project_type, project_status, project_deadline)
-    project.saving_projects()
-    print('\n✅ Project Added Succesfully!\n')
-
-def manage_projects():
-    project_function_mapping = {
-                1: handle_add_projects,
-                2: view_projects,
-                3: update_project_status,
-                4: delete_project,
-                5: None
+        
+def mange_functions(): 
+    project_management_mapping = {
+        
     }
+
     while True:
-        project_choices = [
-                        'Add Projects to Client',
-                        'View Client Projects',
-                        'Update Project Status',
-                        'Delete a Project',
-                        'Back to main Menu'
-                        ] 
-        
-        for index, project_choice in enumerate(project_choices, start=1):
-            print(f'{index}: {project_choice}\n')
+        project_managment_choices = [
+             'Add Projects',
+             'View Projects',
+             'Update Project',
+             'Delete Project',
+             'Back to Main Menu'
+        ]
 
-        user_manage_input = input('\nWhat do you want to manage in projects? ')
+        for index, choices in enumerate(project_managment_choices, start=1):
+            print(f'{index}: {choices}\n')
 
-        if not user_manage_input:
-            print('Input cannot be empty!\n')
-            continue
-        print(f'{user_manage_input}') #Temporary debugging line
-
-        try:
-            user_manage_input = int(user_manage_input)
-        except ValueError:  
-            print('Please, Provide the right input type(INTEGER)!')
-        
-        if user_manage_input == 5:
-            break  
-        elif user_manage_input in project_function_mapping:
-            calling = project_function_mapping[user_manage_input]
-            if calling: #For security 
-                calling()
+        try: 
+            user_choice_input = int(input('What do you want to manage in projects? '))
+            action = project_management_mapping.get(user_choice_input) 
+            if action:
+                action()
+            elif user_choice_input == 5:
+                break
             else:
-                print('\nPlease choose the right option between 1-5')
-  
+                print('Please, choose the right number(1-5)')                
+        except ValueError:
+            print('Please, provide the right input!')
           
 # Main menu section 
 
 def main_menu():
     main_function_mapping = {
         1: manage_clients,
-        2: manage_projects,
+        # 2: manage_projects,
         # Here function will be mapped. For every option in the main choice
     }
 

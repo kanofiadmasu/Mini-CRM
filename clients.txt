@@ -1,1 +1,5 @@
 new | new.Stripe@gmail.com | 433-222-333 | Stripe | Nothing
+Formal | Formal.Shopify@gmail.com | 433-222-222 | Shopify | Nothing
+Kyle | Kyle.Citadel@gmail.com | 122-22-222 | Citadel | Quant
+Bob | Bob.Nvidia@gmail.com | 123-456-789 | Nvidia | Dev
+Boss | Boss.Tesla@gmail.com | 402-222-222 | Tesla | Bossy
