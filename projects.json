@@ -1,0 +1,16 @@
+[
+    {
+        "client_name": "Alice",
+        "project": "Website Development",
+        "status": "In Progress",
+        "start_date": "07/09/2025",
+        "deadline": "25 December, 2024"
+    },
+    {
+        "client_name": "Bob",
+        "project": "Web Design",
+        "status": "Not started",
+        "start_date": "07/09/2025",
+        "deadline": "October 02, 2025"
+    }
+]

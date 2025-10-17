@@ -1,5 +1,8 @@
+from datetime import datetime
 import re 
+import json
 
+print('\nWelcome to the CRM Systme for freelancers!')
 class Clients(): 
     def __init__(self, name, phone_num, company, notes): 
         self.name = name
@@ -13,20 +16,62 @@ class Clients():
     
     def __repr__(self):
         return f'{self.name} | {self.email} | {self.phone} | {self.company} | {self.notes}'
+    
     def save_clients(self, filename='clients.txt'):
         with open(filename, 'a') as client_file:
             line =  f'{self.name} | {self.email} | {self.phone} | {self.company} | {self.notes}\n'
             client_file.write(line)
 
+'''Projects Class related to the project Sub Menu'''
+class Projects: #Project adding and creation
+    def __init__(self, client_name, project_type, status, deadline):
+        self.client_name = client_name
+        self.project = project_type
+        self.status = status
+        self.start_date = datetime.now().strftime('%d/%m/%Y') #Recording the time we begin the task
+        self.deadline = deadline
+
+    def __str__(self):
+        return f'{self.client_name} | {self.project} | {self.status}| {self.start_date} | {self.deadline}'
+    
+    def saving_projects(self, filename='projects.json'):
+        try: 
+            with open(filename, 'r') as file:    #To read and append to list if projects exist before.
+                projects_list = json.load(file)
+        except FileNotFoundError:
+            projects_list = []
+
+        projects = {
+        "client_name": self.client_name,
+        "project": self.project,
+        "status": self.status,
+        "start_date": self.start_date,
+        "deadline": self.deadline
+            }
+        
+        projects_list.append(projects)
+
+        try:
+            with open(filename, 'w') as project_file:
+                json.dump(projects_list, project_file, indent=4)
+        except FileNotFoundError:
+            print('Couldn\'t find the file.')
+
+        return projects_list
+    
+    
 '''This Functions are Under Manage Functions'''
 # Client Adding Section
 def add_client():
+    def is_valid_name(name):
+        return bool(re.match(r"^[A-Za-z0-9\s\-\']+$", name.strip()))
+
     while True:
         name = input('What is the name of the client? ').strip()
-        if name.isalpha():
+        if is_valid_name(name):
             break
-        print('Please, Provide the right input!')
-
+        print('Invalid name. Please provide a correct name')
+    
     def is_valid_phone(phone_num):
         pattern = r'^[\+]?\d[\d\s\-]*$'
         return bool(re.match(pattern, phone_num))
@@ -53,13 +98,17 @@ def add_client():
    clients and also save them in a client list for later
    use for searching'''
 
-def veiw_all_clients(filename='clients.txt'):
+def view_all_clients(filename='clients.txt'):
     client_list = []
     try:
+      
       with open(filename, 'r') as file:
             lines = file.readlines()
+
             if not lines:
-                print('No clinets are found.')
+                print('No clients are found.')
+                return []
+
             for line in lines:
                 name, email, phone_num, company, notes = line.strip().split('|', 4)
                 client = {
@@ -75,7 +124,9 @@ def veiw_all_clients(filename='clients.txt'):
 
       return client_list
     except FileNotFoundError:
-        print('Could not acces file!')
+        print('File is not forund')
+        return []
+    
 
 # Searching Clients
 def search_clients(client_list):
@@ -92,7 +143,7 @@ def search_clients(client_list):
                     print('Client not found.\n')
                 break
             else: 
-                print('\nOnly Alphabetic input is allowed!')
+                print('\n Only Alphabetic input is allowed!')
 # So the above two functions will work together to provide the desired out come
 
 # Deleteing Clients
@@ -129,11 +180,11 @@ def delete_client(filename='clients.txt'):
         for line in clients_list:
             file.write(line)
 
-    print(f'✅Client deleted succecssfully:, {deleted_client.strip()} ')
+    print(f'✅Client deleted successfully: {deleted_client.strip()} ')
 
 ''' Here I used helper function, becuase there was an issue 
     regarding the add_clients function -- it always shows the add
-    client file input first, but the right thing should be the main
+    client input request first, but the right thing should be the main
     menu ''' 
 
 def handle_add_client(): # Add clients helper function
@@ -143,10 +194,10 @@ def handle_add_client(): # Add clients helper function
     print('\n✅ Client Added Succesfully!\n')
 
 def handle_view_clients(): # View helper function
-    veiw_all_clients()
+    view_all_clients()
 
 def handle_search_clients(): # Search helper function
-    client_list = veiw_all_clients()
+    client_list = view_all_clients()
     if client_list:
         search_clients(client_list)
 
@@ -169,9 +220,9 @@ def manage_clients():
     while True: 
         sub_choices = [
                 ' Add Clients',
-                ' Veiw All Clients',
-                ' Searching Clients',
-                ' Delete a client',
+                ' View All Clients',
+                ' Search Clients',
+                ' Delete a Client',
                 ' Back to Main Menu'
                 ]
         
@@ -193,21 +244,144 @@ def manage_clients():
 
 '''End of Managing Client Section, Next section is project managing'''
 
-#Project Management section
+# PROJET MANAGMENT SECTION
+
+'''Client Verfication Fucntion for adding projects'''
+def client_verification(client_list): #This is helper function for the add projects function
+    if  not client_list:
+        print('Clients list is empty, Please add clients first!')
+        return None
+    
+    while True:
+        user_input = input('Enter client name or (type \"menu" to go back) ' ).strip()
+        
+        #Allowing to return to main menu
+        if user_input.lower() == "menu":
+            print('Returning to main menu...')
+            return None
+        
+        if not user_input or user_input.isdigit():
+            print('Invalid Input! Please enter the name of the client for checking!')
+            continue
+        #There is another function that returns the clients list
+
+        client_name = None  
+        for client in client_list: 
+            client_name = client['name']
+            if client_name.lower() == user_input.lower():
+                print('Client exists, Lets proceed to add project!')
+                return client['name'] 
+        print('Client Not found. Try agian')
+        if client_name:
+            print(client_name.lower())
+
+        #Add projcets function
+def add_projects(client_list):
+    choice = input('Add project to new client? Yes/No: ').strip().lower()
+    if choice == 'yes':
+        print('Please add client from main menu first.')
+        return None
+    
+    elif choice == 'no':
+        client = client_verification(client_list)
+        if not client:
+            return None
+    
+        project_type = input('What is the Project type? ').strip() 
+
+        allowed_statuses = ['NOT STARTED', 'STARTED', 'COMPLETED']
+        while True: 
+            project_status = input('What is the status of the project? choose from').strip().upper()
+            if project_status not in allowed_statuses:
+                print('Invalid Status! Please choose from', ", ".join(allowed_statuses))
+                continue
+            else: 
+                break
+
+        while True:
+                project_deadline = input('When is the deadline?(dd/mm/yyyy) ')
+                try:
+                    datetime.strptime(project_deadline, "%d/%m/%Y")
+                    break
+                except ValueError:
+                    print('Invalid date format. Please use dd/mm/yyyy')
+    else:
+        print('Invalid Choice. Please enter Yes/No.')
+ 
+
+    return client, project_type, project_status, project_deadline 
+ 
+
+def view_projects():
+    pass
+def update_project_status():    
+    pass
+def delete_project():   
+    pass
+
+'''Project managment requires a helper function '''
+
+def handle_add_projects():
+    client_list = view_all_clients() 
+    if not client_list:
+        print('No clients found. Please add clients first.')
+        return
+    result = add_projects(client_list)
+    if not result:
+        return 
+    client, project_type, project_status, project_deadline = result
+    project = Projects(client, project_type, project_status, project_deadline)
+    project.saving_projects()
+    print('\n✅ Project Added Succesfully!\n')
 
 def manage_projects():
-    project_choices = [
-                    'Add Projects to Client',
-                    'View Client Projects',
-                    'Update Project Status',
-                    'Delete a Project',
-                    'Back to main Menu'
-                    ]
+    project_function_mapping = {
+                1: handle_add_projects,
+                2: view_projects,
+                3: update_project_status,
+                4: delete_project,
+                5: None
+    }
+    while True:
+        project_choices = [
+                        'Add Projects to Client',
+                        'View Client Projects',
+                        'Update Project Status',
+                        'Delete a Project',
+                        'Back to main Menu'
+                        ] 
+        
+        for index, project_choice in enumerate(project_choices, start=1):
+            print(f'{index}: {project_choice}\n')
+
+        user_manage_input = input('\nWhat do you want to manage in projects? ')
+
+        if not user_manage_input:
+            print('Input cannot be empty!\n')
+            continue
+        print(f'{user_manage_input}') #Temporary debugging line
+
+        try:
+            user_manage_input = int(user_manage_input)
+        except ValueError:  
+            print('Please, Provide the right input type(INTEGER)!')
+        
+        if user_manage_input == 5:
+            break  
+        elif user_manage_input in project_function_mapping:
+            calling = project_function_mapping[user_manage_input]
+            if calling: #For security 
+                calling()
+            else:
+                print('\nPlease choose the right option between 1-5')
+  
+          
 # Main menu section 
 
 def main_menu():
     main_function_mapping = {
         1: manage_clients,
+        2: manage_projects,
         # Here function will be mapped. For every option in the main choice
     }
 
@@ -232,6 +406,5 @@ def main_menu():
         except ValueError:
             print('Please, provide the right input!')            
 
-main_menu()
-
-
+if __name__ == '__main__':
+    main_menu() 
