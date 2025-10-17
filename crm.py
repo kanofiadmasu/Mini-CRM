@@ -244,13 +244,40 @@ def manage_clients():
 '''End of Managing Client Section, Next section is project managing'''
 
 # PROJET MANAGMENT SECTION
-def add_projects(): 
+def project_adding():
+    pass
+def client_verification():
+    pass
+
+def preparation_function(): 
     while True: 
-        user_choice = input('Are you adding project to existing client or a new client? Existing/New ').lower().isalpha()
-        if not user_choice:
-            print('Input Cannot be empty choose either Existing or New!')
+        choices = ['Existing', 'New']
+        for index, choice in enumerate(choices, start= 1):
+            print(f'{index} : {choice} \n')
+
+        user_input = input('Are you adding a project to an existing or new clinet? Select 1 or 2! ') 
+        # Becuase there is one to many relation between clients and projects. 
+
+        # validating Input
+        if not user_input:
+            print('❌ Input cannot be empty choose either Existing or New!')
             continue
-        
+        try:
+            user_input = int(user_input)
+        except ValueError:
+            print('❌ Input can only be an integer!')
+            continue 
+        if user_input not in (1, 2): 
+            print('\n ❌ Please select form the given choices! (1 or 2)')
+            continue 
+
+        if user_input == 1:
+            print('Provide the first name of the client to search for.')
+            # Searching Function, if the name exists call the adding function 
+        else:
+            print('You first need to add the client? would you like to proceed?')
+            break
+
 def mange_functions(): 
     project_management_mapping = {
         
