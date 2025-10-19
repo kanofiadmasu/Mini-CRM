@@ -154,38 +154,35 @@ def search_clients(client_list):
                 print('\n Only Alphabetic input is allowed!')
 # So the above two functions will work together to provide the desired out come
 
-# Deleteing Clients
-def delete_client(filename='clients.txt'):
-    try:
-        with open(filename, 'r') as file:
-            clients_list = file.readlines()
-        if not clients_list:
-            print('❌No clients found to delete!')
-            return 
-        for index, line in enumerate(clients_list, start= 1):
-            print(f'{index}, {line.strip()}')
-    except FileNotFoundError:
-        print('The file is not found')
-        return # So that a function doesn't try to proceed with the execution
+def delete_client(client_lines, filename='clients.txt'):
+
+    for index, each_client in enumerate(client_lines, start= 1):
+        print(f'{index}, {each_client.strip()}')
+
+    if not client_lines:
+        print('❌ No clinets found to delete!')
+        return
 
     while True:
         user_deletion_input = input('Which client would you like to delete? Choose the associated number ')
         try: 
             user_deletion_input = int(user_deletion_input)
-            if 0 < user_deletion_input <= len(clients_list):
+            if 0 < user_deletion_input <= len(client_lines):
                 break 
             else: 
-                print('Please choose with in the range of the list')
+                print('⚠️ Please choose with in the range of the list')
         except ValueError:
-                print('You provided the wrong value, Input the valid value')
+                print('⚠️ You provided the wrong value, Input the valid value')
             
-    deleted_client = clients_list.pop(user_deletion_input - 1)
+    deleted_client = client_lines.pop(user_deletion_input - 1)
 
         #then after deletion we have to update the list so we are going 
         #to write it using write mode in python
 
     with open(filename, 'w') as file:
-        for line in clients_list:
+        for line in client_lines:
+            if not line.endswith('\n'):
+                line += '\n'
             file.write(line)
 
     print(f'✅Client deleted successfully: {deleted_client.strip()} ')
@@ -211,7 +208,8 @@ def handle_search_clients(): # Search helper function
         search_clients(client_list)
 
 def handle_client_deletion():
-    delete_client()
+    client_lines = client_file_opening()
+    delete_client(client_lines)
 
 ''' since we used helper function, we should change the options 
     for the main menu function'''
