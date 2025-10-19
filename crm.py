@@ -91,47 +91,55 @@ def add_client():
     notes = input('What Notes would you like to add? ')
 
     return name, phone_num, company, notes 
- 
+
+# File openeing function, main use to modularize
+
+def client_file_opening(filename='clients.txt'):
+    """
+    Opens the client file and returns a the clients. 
+    We are going to use it is multiple times. 
+    """
+    try:
+        with open(filename, 'r') as clients_file:
+            clients = clients_file.readlines()
+
+            if not clients:
+                print('❌ No clients are found!')
+            
+        return clients
+    except FileNotFoundError:
+        print('❌ The file is not found! ')
+        return []
+
 # Viewing All Clients 
 
 '''Here in the function below we will both read the 
    clients and also save them in a client list for later
    use for searching'''
 
-def view_all_clients(filename='clients.txt'):
+def view_all_clients(clients):
     client_list = []
-    try:
-      
-      with open(filename, 'r') as file:
-            lines = file.readlines()
 
-            if not lines:
-                print('No clients are found.')
-                return []
+    # Using the returned clients file form the client_file_opening function
 
-            for line in lines:
-                name, email, phone_num, company, notes = line.strip().split('|', 4)
-                client = {
-                    "name": name,
-                    "email": email,
-                    "phone": phone_num,
-                    "company": company,
-                    "notes": notes,
-                }
-                client_list.append(client)
+    for each_client in clients:
+        name, email, phone_num, company, notes = each_client.strip().split('|', 4)
+        client = {
+            "name": name,
+            "email": email,
+            "phone": phone_num,
+            "company": company,
+            "notes": notes,
+        }
+        client_list.append(client)
+        print(f'{name} | {phone_num} | {company} | {notes}')
 
-                print(f'{name} | {phone_num} | {company} | {notes}')
-
-      return client_list
-    except FileNotFoundError:
-        print('File is not forund')
-        return []
-    
+    return client_list
 
 # Searching Clients
 def search_clients(client_list):
         while True: 
-            key_word = input('Input the first name of the client as key word for searching.')
+            key_word = input('Input the first name of the client as key word for searching.' )
             if key_word.isalpha():
                 found = False
                 for client in client_list:
@@ -194,7 +202,8 @@ def handle_add_client(): # Add clients helper function
     print('\n✅ Client Added Succesfully!\n')
 
 def handle_view_clients(): # View helper function
-    view_all_clients()
+    client_lines = client_file_opening()
+    view_all_clients(client_lines)
 
 def handle_search_clients(): # Search helper function
     client_list = view_all_clients()
@@ -246,7 +255,7 @@ def manage_clients():
 # PROJET MANAGMENT SECTION
 def project_adding():
     pass
-def client_verification():
+def client_verification(): # this is just a function that adds that reads and searchs for the client
     pass
 
 def preparation_function(): 
