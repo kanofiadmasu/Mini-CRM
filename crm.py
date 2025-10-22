@@ -138,20 +138,26 @@ def view_all_clients(clients):
 
 # Searching Clients
 def search_clients(client_list):
-        while True: 
-            key_word = input('Input the first name of the client as key word for searching.' )
-            if key_word.isalpha():
-                found = False
-                for client in client_list:
-                    first_name = client['name'].split()[0]
-                    if first_name.lower() == key_word.lower():
-                        print(f'{client["name"]} | {client["phone"]} | {client["company"]} | {client["notes"]}')
-                        found = True
-                if not found:
-                    print('Client not found.\n')
-                break
-            else: 
-                print('\n Only Alphabetic input is allowed!')
+    while True: 
+        key_word = input('\nInput the first name of the client as key word for searching or \'q\' if you want to quit. ')
+
+        if key_word == 'q':
+            print('\n✅ Exited Successfully!')
+            break
+
+        if not key_word: 
+            print('⚠️ Input is neccessary to search for a client!')
+            continue
+
+        found = False
+        for client in client_list:
+            first_name = client['name'].split()[0]
+            if re.match(key_word, first_name, re.I):
+                print(f'\n ✅ Client Found: {client["name"]} | {client["phone"]} | {client["company"]} | {client["notes"]}')
+                found = True
+        if not found:
+            print('Client not found.\n')
+
 # So the above two functions will work together to provide the desired out come
 
 def delete_client(client_lines, filename='clients.txt'):
@@ -203,7 +209,8 @@ def handle_view_clients(): # View helper function
     view_all_clients(client_lines)
 
 def handle_search_clients(): # Search helper function
-    client_list = view_all_clients()
+    clients = client_file_opening()
+    client_list = view_all_clients(clients)
     if client_list:
         search_clients(client_list)
 
