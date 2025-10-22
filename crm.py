@@ -92,7 +92,7 @@ def add_client():
 
     return name, phone_num, company, notes 
 
-# File openeing function, main use to modularize
+# File openeing function, main use is to modularize
 
 def client_file_opening(filename='clients.txt'):
     """
