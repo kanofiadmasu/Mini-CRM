@@ -149,14 +149,12 @@ def search_clients(client_list):
             print('⚠️ Input is neccessary to search for a client!')
             continue
 
-        found = False
         for client in client_list:
             first_name = client['name'].split()[0]
             if re.match(key_word, first_name, re.I):
                 print(f'\n ✅ Client Found: {client["name"]} | {client["phone"]} | {client["company"]} | {client["notes"]}')
-                found = True
-        if not found:
-            print('Client not found.\n')
+                return first_name 
+        print('Client not found.\n')
 
 # So the above two functions(view-all-clients and searching) will work together to provide the desired out come
 
@@ -269,7 +267,13 @@ def client_verification(): # this is just a function that reads and searchs for 
     clients = client_file_opening()
     client_list = view_all_clients(clients)
     if client_list:
-        search_clients(client_list)
+        result = search_clients(client_list)
+
+    if result is None:
+        print('❌ Client is not found, please add the client first!')
+    else:
+        print('✅ Client is found, you can proceede into adding project to that client!')
+        project_adding()
     
     
 def preparation_function(): 
