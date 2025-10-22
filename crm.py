@@ -158,7 +158,7 @@ def search_clients(client_list):
         if not found:
             print('Client not found.\n')
 
-# So the above two functions will work together to provide the desired out come
+# So the above two functions(view-all-clients and searching) will work together to provide the desired out come
 
 def delete_client(client_lines, filename='clients.txt'):
 
