@@ -260,9 +260,18 @@ def manage_clients():
 # PROJET MANAGMENT SECTION
 def project_adding():
     pass
-def client_verification(): # this is just a function that adds that reads and searchs for the client
-    pass
-
+def client_verification(): # this is just a function that reads and searchs for the client
+    """
+    We can use search client to find for the client, if the client is there
+    we will call the Project adding function and we will, add the project to 
+    the project-file as well as the client it self. 
+    """
+    clients = client_file_opening()
+    client_list = view_all_clients(clients)
+    if client_list:
+        search_clients(client_list)
+    
+    
 def preparation_function(): 
     while True: 
         choices = ['Existing', 'New']
@@ -286,7 +295,8 @@ def preparation_function():
             continue 
 
         if user_input == 1:
-            print('Provide the first name of the client to search for.')
+            print('✅ Searching for the client.')
+            client_verification()
             # Searching Function, if the name exists call the adding function 
         else:
             print('You first need to add the client? would you like to proceed?')
