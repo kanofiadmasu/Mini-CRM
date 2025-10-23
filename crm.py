@@ -137,7 +137,7 @@ def view_all_clients(clients):
     return client_list
 
 # Searching Clients
-def search_clients(client_list):
+def search_clients(clients):
     while True: 
         key_word = input('\nInput the first name of the client as key word for searching or \'q\' if you want to quit. ')
 
@@ -149,12 +149,13 @@ def search_clients(client_list):
             print('⚠️ Input is neccessary to search for a client!')
             continue
 
-        for client in client_list:
-            first_name = client['name'].split()[0]
-            if re.match(key_word, first_name, re.I):
-                print(f'\n ✅ Client Found: {client["name"]} | {client["phone"]} | {client["company"]} | {client["notes"]}')
-                return first_name 
-        print('Client not found.\n')
+        for client in clients:
+            client_name = client.split()[0].strip()
+            if re.match(key_word, client_name, re.I):
+                print(f'\n ✅ Client Found: {client}')
+                return client_name
+            
+        print('❌ Client not found.\n')
 
 # So the above two functions(view-all-clients and searching) will work together to provide the desired out come
 
@@ -208,9 +209,7 @@ def handle_view_clients(): # View helper function
 
 def handle_search_clients(): # Search helper function
     clients = client_file_opening()
-    client_list = view_all_clients(clients)
-    if client_list:
-        search_clients(client_list)
+    search_clients(clients)
 
 def handle_client_deletion():
     client_lines = client_file_opening()
