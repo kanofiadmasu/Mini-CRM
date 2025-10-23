@@ -258,10 +258,13 @@ def manage_clients():
 def project_adding():
     """
     Get the inputs about the project from the user. 
+    This function has to use function parametrization
+    to make it reusable to add project both for existing client 
+    and new client. 
     """
 
     pass
-def client_verification(): # this is just a function that reads and searchs for the client
+def client_verification(): # this is just a function that reads and searchs for the clientw
     """
     We can use search client to find for the client, if the client is there
     we will call the Project adding function and we will, add the project to 
