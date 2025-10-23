@@ -256,6 +256,10 @@ def manage_clients():
 
 # PROJET MANAGMENT SECTION
 def project_adding():
+    """
+    Get the inputs about the project from the user. 
+    """
+
     pass
 def client_verification(): # this is just a function that reads and searchs for the client
     """
@@ -264,14 +268,12 @@ def client_verification(): # this is just a function that reads and searchs for 
     the project-file as well as the client it self. 
     """
     clients = client_file_opening()
-    client_list = view_all_clients(clients)
-    if client_list:
-        result = search_clients(client_list)
-
+    result = search_clients(clients)
+    
     if result is None:
         print('❌ Client is not found, please add the client first!')
     else:
-        print('✅ Client is found, you can proceede into adding project to that client!')
+        print('✅ Client is found, proceeding into adding project to a client!')
         project_adding()
     
     
@@ -302,8 +304,21 @@ def preparation_function():
             client_verification()
             # Searching Function, if the name exists call the adding function 
         else:
-            print('You first need to add the client? would you like to proceed?')
-            break
+            user_choice = input('You first need to add the client? would you like to proceed(Yes/No)? ').lower().strip()
+            
+            if not user_choice: 
+                print('❌ Input is required, choose either Yes or No!')
+            
+            if user_choice in ('yes', 'no'):
+                if user_choice == 'yes':
+                    # project_adding() with out verification
+                    pass 
+                elif user_choice == 'no':
+                    print('👋 Exiting project adding.')
+                break
+            else:
+                print('❌ You provided the wrong input. Type Yes or No.')
+
 
 def mange_functions(): 
     project_management_mapping = {
