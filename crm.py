@@ -274,7 +274,26 @@ def client_verification(): # this is just a function that reads and searchs for 
     result = search_clients(clients)
     
     if result is None:
-        print('❌ Client is not found, please add the client first!')
+        while True:
+            user_choice = input(
+            '❌ Client is not found, please add the client first! Would you like to proceede to the client? (Yes or No) '
+            ).strip().lower()
+            
+            if not user_choice:
+                print('❌ Inuput is required. Type "Yes" or "No".')
+                continue
+
+            if user_choice in ('yes', 'no'):
+                if user_choice == 'yes':
+                    print('✅ Proceeding to add a new client')
+                    # project_adding() without client verification
+                    break
+                else: 
+                    print('👋 Exiting project Adding')
+                    break          
+            else: 
+                print('❌ Invalid input. Type "Yes" or "No" only.')
+
     else:
         print('✅ Client is found, proceeding into adding project to a client!')
         project_adding()
