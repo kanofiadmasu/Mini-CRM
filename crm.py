@@ -361,14 +361,14 @@ def preparation_function():
     while True: 
         choices = ['Existing', 'New']
         for index, choice in enumerate(choices, start= 1):
-            print(f'{index} : {choice} \n')
+            print(f'\n{index} : {choice} \n')
 
-        user_input = input('Are you adding a project to an existing or new clinet? Select 1 or 2! ') 
+        user_input = input('Are you adding a project to an existing or new client? Select 1 or 2! ') 
         # Becuase there is one to many relation between clients and projects. 
 
         # validating Input
         if not user_input:
-            print('❌ Input cannot be empty choose either Existing or New!')
+            print('\n❌ Input cannot be empty choose either Existing or New!')
             continue
         try:
             user_input = int(user_input)
@@ -376,7 +376,7 @@ def preparation_function():
             print('❌ Input can only be an integer!')
             continue 
         if user_input not in (1, 2): 
-            print('\n ❌ Please select form the given choices! (1 or 2)')
+            print('\n❌ Please select form the given choices! (1 or 2)')
             continue 
 
         if user_input == 1:
