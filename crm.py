@@ -58,17 +58,18 @@ class Projects: #Project adding and creation
             print('Couldn\'t find the file.')
 
         return projects_list
-    
+
+# Function to check for correct name input pattern
+
+def is_valid_pattern(user_input):
+    return bool(re.match(r"^[A-Za-z0-9\s\-\']+$", user_input.strip()))
     
 '''This Functions are Under Manage client Functions'''
 # Client Adding Section
 def add_client():
-    def is_valid_name(name):
-        return bool(re.match(r"^[A-Za-z0-9\s\-\']+$", name.strip()))
-
     while True:
         name = input('What is the name of the client? ').strip()
-        if is_valid_name(name):
+        if is_valid_pattern(name):
             break
         print('Invalid name. Please provide a correct name')
     
@@ -255,18 +256,43 @@ def manage_clients():
 '''End of Managing Client Section, Next section is project managing'''
 
 # PROJET MANAGMENT SECTION
-def project_adding(client_name=None):
+def project_adding(client_name=None, new_client=True):
     """
     Get the inputs about the project from the user. 
     This function has to use function parametrization
     to make it reusable to add project both for existing client 
     and new client. 
     """
+    if new_client:
+    # If it is new client, client_adding should be called.
+        name, phone_num, company, notes = add_client() 
+        client = Clients(name, phone_num, company, notes) 
+        client.save_clients()
+        print('\n✅ Client Added Succesfully!\n')
+        return name
+
     if client_name:
         name = client_name
-    
+
+    # After adding the client, proceede with adding projects. 
+
     while True:
-        pass
+        
+        project = input('What is the project type? ')
+
+        if not project:
+            print('❌ Project can not be empty!')
+            continue
+        
+
+    
+
+
+            
+
+    
+    
+        
 
 
 def client_verification(): # this is just a function that reads and searchs for the clientw
@@ -291,7 +317,7 @@ def client_verification(): # this is just a function that reads and searchs for 
             if user_choice in ('yes', 'no'):
                 if user_choice == 'yes':
                     print('✅ Proceeding to add a new client')
-                    # project_adding() without client verification
+                    project_adding(new_client=True) 
                     break
                 else: 
                     print('👋 Exiting project Adding')
@@ -330,7 +356,7 @@ def preparation_function():
             print('✅ Searching for the client.')
             client_name = client_verification()
             if client_name:
-                project_adding(client_name)
+                project_adding(client_name, new_client=False)
             # Searching Function, if the name exists call the adding function 
         else:
             user_choice = input('You first need to add the client? would you like to proceed(Yes/No)? ').lower().strip()
