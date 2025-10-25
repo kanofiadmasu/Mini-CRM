@@ -263,13 +263,13 @@ def project_adding(client_name=None, new_client=True):
     to make it reusable to add project both for existing client 
     and new client. 
     """
-    if new_client:
+
     # If it is new client, client_adding should be called.
+    if new_client:
         name, phone_num, company, notes = add_client() 
         client = Clients(name, phone_num, company, notes) 
         client.save_clients()
         print('\n✅ Client Added Succesfully!\n')
-        return name
 
     if client_name:
         name = client_name
@@ -277,22 +277,51 @@ def project_adding(client_name=None, new_client=True):
     # After adding the client, proceede with adding projects. 
 
     while True:
-        
         project = input('What is the project type? ')
 
         if not project:
             print('❌ Project can not be empty!')
             continue
         
+        if not is_valid_pattern(project):
+            print('⚠️ Provide a valid Project type.')
+            continue
+        else:
+            break
 
-    
-
-
-            
-
-    
-    
+    # Status Choice
+    possible_status = ["Not-Started", "In Progress", "Completed"]
+    while True:
+        print('\nSelect the project status:')
+        for index, status in enumerate(possible_status, start=1):
+            print(f'\n{index}: {status}')
+        status_input = input('What is the status of your project? Selcet the number From the options. ') 
         
+        if not status_input:
+            print('❌ Input can not be empty. Please choose from the option.')
+            continue
+
+        try:
+            status_input = int(status_input)
+        except ValueError:
+            print('❌ Choose only from the numbers.')
+            continue
+        
+        if status_input:
+            status = possible_status[int(status_input)-1]
+            break
+
+    # Deadline
+    while True:
+        deadline = input('When is the deadline?(dd/mm/yyyy) ')
+        try:
+            datetime.strptime(deadline, "%d/%m/%Y")
+            break
+        except ValueError:
+            print('Invalid date format. Please use dd/mm/yyyy')
+    
+    return name, project, status, deadline
+
 
 
 def client_verification(): # this is just a function that reads and searchs for the clientw
