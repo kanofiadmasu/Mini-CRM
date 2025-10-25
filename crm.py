@@ -361,7 +361,7 @@ def preparation_function():
     while True: 
         choices = ['Existing', 'New']
         for index, choice in enumerate(choices, start= 1):
-            print(f'\n{index} : {choice} \n')
+            print(f'{index} : {choice}\n')
 
         user_input = input('Are you adding a project to an existing or new client? Select 1 or 2! ') 
         # Becuase there is one to many relation between clients and projects. 
@@ -393,7 +393,7 @@ def preparation_function():
             
             if user_choice in ('yes', 'no'):
                 if user_choice == 'yes':
-                    # project_adding() with out verification
+                    project_adding(new_client=True) 
                     pass 
                 elif user_choice == 'no':
                     print('👋 Exiting project adding.')
