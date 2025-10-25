@@ -322,9 +322,7 @@ def project_adding(client_name=None, new_client=True):
     
     return name, project, status, deadline
 
-
-
-def client_verification(): # this is just a function that reads and searchs for the clientw
+def client_verification(): # this is just a function that reads and searchs for the client
     """
     We can use search client to find for the client, if the client is there
     we will call the Project adding function and we will, add the project to 
@@ -404,8 +402,9 @@ def preparation_function():
                 print('❌ You provided the wrong input. Type Yes or No.')
 
 
-def mange_functions(): 
+def manage_projects(): 
     project_management_mapping = {
+         1: preparation_function, # This is the function that calls the project_adding function depending on the condition
         
     }
 
@@ -438,7 +437,7 @@ def mange_functions():
 def main_menu():
     main_function_mapping = {
         1: manage_clients,
-        # 2: manage_projects,
+        2: manage_projects,
         # Here function will be mapped. For every option in the main choice
     }
 
