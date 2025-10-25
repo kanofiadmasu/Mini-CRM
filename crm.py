@@ -255,15 +255,20 @@ def manage_clients():
 '''End of Managing Client Section, Next section is project managing'''
 
 # PROJET MANAGMENT SECTION
-def project_adding():
+def project_adding(client_name=None):
     """
     Get the inputs about the project from the user. 
     This function has to use function parametrization
     to make it reusable to add project both for existing client 
     and new client. 
     """
+    if client_name:
+        name = client_name
+    
+    while True:
+        pass
 
-    pass
+
 def client_verification(): # this is just a function that reads and searchs for the clientw
     """
     We can use search client to find for the client, if the client is there
@@ -296,7 +301,7 @@ def client_verification(): # this is just a function that reads and searchs for 
 
     else:
         print('✅ Client is found, proceeding into adding project to a client!')
-        project_adding()
+    return result
     
     
 def preparation_function(): 
@@ -323,7 +328,9 @@ def preparation_function():
 
         if user_input == 1:
             print('✅ Searching for the client.')
-            client_verification()
+            client_name = client_verification()
+            if client_name:
+                project_adding(client_name)
             # Searching Function, if the name exists call the adding function 
         else:
             user_choice = input('You first need to add the client? would you like to proceed(Yes/No)? ').lower().strip()
