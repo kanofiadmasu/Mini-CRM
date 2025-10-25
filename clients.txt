@@ -4,3 +4,5 @@ Kyle | Kyle.Citadel@gmail.com | 122-22-222 | Citadel | Quant
 Bob | Bob.Nvidia@gmail.com | 123-456-789 | Nvidia | Dev
 Boss | Boss.Tesla@gmail.com | 402-222-222 | Tesla | Bossy
 Sir | Sir.Enlighten@gmail.com | 123-456-789 | Enlighten | Go all in
+Test | Test.Enlighten@gmail.com | 4444-333-333 | Enlighten | Testing function handling
+Main Testing | Main Testing.Conviction@gmail.com | 2423-222-2202 | Conviction | VC

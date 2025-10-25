@@ -36,7 +36,7 @@ class Projects: #Project adding and creation
     
     def saving_projects(self, filename='projects.json'):
         try: 
-            with open(filename, 'r') as file:    #To read and append to list if projects exist before.
+            with open(filename, 'r') as file:    #To read and append to the list if projects exist before.
                 projects_list = json.load(file)
         except FileNotFoundError:
             projects_list = []
@@ -344,7 +344,7 @@ def client_verification(): # this is just a function that reads and searchs for 
             if user_choice in ('yes', 'no'):
                 if user_choice == 'yes':
                     print('✅ Proceeding to add a new client')
-                    project_adding(new_client=True) 
+                    handle_project_adding(for_new=True)
                     break
                 else: 
                     print('👋 Exiting project Adding')
@@ -383,7 +383,7 @@ def preparation_function():
             print('✅ Searching for the client.')
             client_name = client_verification()
             if client_name:
-                project_adding(client_name, new_client=False)
+                handle_project_adding(client_name, for_new=False)
             # Searching Function, if the name exists call the adding function 
         else:
             user_choice = input('You first need to add the client? would you like to proceed(Yes/No)? ').lower().strip()
@@ -393,14 +393,25 @@ def preparation_function():
             
             if user_choice in ('yes', 'no'):
                 if user_choice == 'yes':
-                    project_adding(new_client=True) 
-                    pass 
+                    handle_project_adding(for_new=True)
                 elif user_choice == 'no':
                     print('👋 Exiting project adding.')
                 break
             else:
                 print('❌ You provided the wrong input. Type Yes or No.')
 
+def handle_project_adding(client_name=None, for_new=True):
+    if for_new:
+        name, project, status, deadline = project_adding(new_client=True)
+        projects = Projects(name, project, status, deadline)
+        projects.saving_projects()
+        print('\n✅ Project Added Successfully!\n')
+    
+    if not for_new:
+        name, project, status, deadline = project_adding(client_name, new_client=False)
+        projects = Projects(name, project, status, deadline)
+        projects.saving_projects()
+        print('\n✅ Project Added Successfully!\n')
 
 def manage_projects(): 
     project_management_mapping = {
