@@ -2,7 +2,7 @@ from datetime import datetime
 import re 
 import json
 
-print('\nWelcome to the CRM Systme for freelancers!')
+print('\nWelcome to the CRM system for freelancers!')
 class Clients(): 
     def __init__(self, name, phone_num, company, notes): 
         self.name = name
