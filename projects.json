@@ -40,5 +40,12 @@
         "status": "Not-Started",
         "start_date": "25/10/2025",
         "deadline": "01/01/2026"
+    },
+    {
+        "client_name": "new",
+        "project": "Ai ",
+        "status": "Not-Started",
+        "start_date": "26/10/2025",
+        "deadline": "20/02/2026"
     }
 ]

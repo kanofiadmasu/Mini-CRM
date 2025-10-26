@@ -359,11 +359,11 @@ def client_verification(): # this is just a function that reads and searchs for 
     
 def preparation_function(): 
     while True: 
-        choices = ['Existing', 'New']
+        choices = ['Existing', 'New', 'Return']
         for index, choice in enumerate(choices, start= 1):
             print(f'{index} : {choice}\n')
 
-        user_input = input('Are you adding a project to an existing or new client? Select 1 or 2! ') 
+        user_input = input('Are you adding a project to an existing or new client? Select 1 or 2. If you want to return back enter "3". ') 
         # Becuase there is one to many relation between clients and projects. 
 
         # validating Input
@@ -375,8 +375,8 @@ def preparation_function():
         except ValueError:
             print('❌ Input can only be an integer!')
             continue 
-        if user_input not in (1, 2): 
-            print('\n❌ Please select form the given choices! (1 or 2)')
+        if user_input not in (1, 2, 3): 
+            print('\n❌ Please select form the given choices! (1, 2 or 3)')
             continue 
 
         if user_input == 1:
@@ -385,6 +385,9 @@ def preparation_function():
             if client_name:
                 handle_project_adding(client_name, for_new=False)
             # Searching Function, if the name exists call the adding function 
+        elif user_input == 3:
+            print('✅Exited Successfully!\n')
+            break 
         else:
             user_choice = input('You first need to add the client? would you like to proceed(Yes/No)? ').lower().strip()
             
