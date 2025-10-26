@@ -419,7 +419,7 @@ def handle_project_adding(client_name=None, for_new=True):
 def manage_projects(): 
     project_management_mapping = {
          1: preparation_function, # This is the function that calls the project_adding function depending on the condition
-        
+        #  2: view_projects 
     }
 
     while True:
