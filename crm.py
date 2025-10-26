@@ -256,6 +256,7 @@ def manage_clients():
 '''End of Managing Client Section, Next section is project managing'''
 
 # PROJET MANAGMENT SECTION
+
 def project_adding(client_name=None, new_client=True):
     """
     Get the inputs about the project from the user. 
@@ -416,10 +417,32 @@ def handle_project_adding(client_name=None, for_new=True):
         projects.saving_projects()
         print('\n✅ Project Added Successfully!\n')
 
+# Project Viewing Section 
+
+def view_projects(filename="projects.json"):
+    """
+    This function is reusable for the other CRUD operations as well--updating and 
+    deleting projects. It will open the projects file, read the projects and print 
+    them as a list to view. 
+    """
+    try:
+        with open(filename, 'r') as file:
+          projects_list = json.load(file)
+
+        for each_project in projects_list:
+            name = each_project["client_name"]
+            project_type = each_project["project"]
+            status = each_project["status"]
+            deadline = each_project["deadline"]
+            print(f'{name} | {project_type} | {status} | {deadline}')
+
+    except FileNotFoundError:
+        print('❌')
+
 def manage_projects(): 
     project_management_mapping = {
          1: preparation_function, # This is the function that calls the project_adding function depending on the condition
-        
+         2: view_projects
     }
 
     while True:
@@ -432,10 +455,11 @@ def manage_projects():
         ]
 
         for index, choices in enumerate(project_managment_choices, start=1):
-            print(f'{index}: {choices}\n')
+            print(f'\n{index}: {choices}')
 
         try: 
-            user_choice_input = int(input('What do you want to manage in projects? '))
+            user_choice_input = int(input('\nWhat do you want to manage in projects? '))
+            print()
             action = project_management_mapping.get(user_choice_input) 
             if action:
                 action()
