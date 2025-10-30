@@ -417,11 +417,21 @@ def handle_project_adding(client_name=None, for_new=True):
         projects.saving_projects()
         print('\n✅ Project Added Successfully!\n')
 
+# Project Reading Function 
+def project_file_openeing(filename="projects.json"):
+    try:
+        with open(filename, 'r') as file:
+            projects_list = json.load(file)
+    except FileNotFoundError:
+        print('❌The file is not found! ')
+
+    return projects_list 
+
 # Project Viewing Section 
 
 def view_projects(filename="projects.json"):
     """
-    This function is reusable for the other CRUD operations as well--updating and 
+    This function is reusable for the other CRUD operations as i.e. updating and 
     deleting projects. It will open the projects file, read the projects and print 
     them as a list to view. 
     """
