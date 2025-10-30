@@ -446,10 +446,33 @@ def view_projects():
     
     return projects_list
 
+# Project Updating Function
+def update_projects():
+    projects_list = view_projects()
+
+    while True: 
+        try:
+            user_choice = int(input('Select the project number you would like to update. '))
+
+            if not user_choice:
+                print('❌ Input can not be empty. Choose the number associated with the project.')
+                continue
+
+            if user_choice < 1 or user_choice > len(projects_list):
+                print('❌Invlaid selection. Select from the numbers associated with the data.')
+                continue 
+            else: 
+                project = projects_list[user_choice-1]
+                break
+            
+        except ValueError:
+            print('⚠️ Only number is allowed as an input. ')
+
 def manage_projects(): 
     project_management_mapping = {
          1: preparation_function, # This is the function that calls the project_adding function depending on the condition
-         2: view_projects
+         2: view_projects,
+         3: update_projects
     }
 
     while True:
