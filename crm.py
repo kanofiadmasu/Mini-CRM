@@ -452,7 +452,7 @@ def update_projects():
 
     while True: 
         try:
-            user_choice = int(input('Select the project number you would like to update. '))
+            user_choice = int(input('\nSelect the project number you would like to update. '))
 
             if not user_choice:
                 print('❌ Input can not be empty. Choose the number associated with the project.')
@@ -463,10 +463,17 @@ def update_projects():
                 continue 
             else: 
                 project = projects_list[user_choice-1]
+                name = project["client_name"]
+                project_type = project["project"]
+                status = project["status"]
+                deadline = project["deadline"]
+                print(f'\n✅{name} | {project_type} | {status} | {deadline}')
                 break
-            
         except ValueError:
             print('⚠️ Only number is allowed as an input. ')
+
+# Asking which section the user would like to update. 
+
 
 def manage_projects(): 
     project_management_mapping = {
