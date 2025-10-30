@@ -447,7 +447,7 @@ def view_projects():
     return projects_list
 
 # Project Updating Function
-def update_projects():
+def update_projects(filename="projects.json"):
     projects_list = view_projects()
 
     while True: 
@@ -488,74 +488,76 @@ def update_projects():
             # If User input is with in this numbers, updating will continue depending on the input
             if user_choice in [1, 2, 3, 4]:
                 # Frist user choice
-                while True:
-                    new_name = input('What is the new client name? ')
+                if user_choice == 1:
+                    while True:
+                        new_name = input('What is the new client name? ')
 
-                    if not new_name:
-                        print('❌ Input can not be empty!')
-                        continue
-                    
-                    if not is_valid_pattern(project):
-                        print('⚠️ Provide a valid name.')
-                        continue
-                    else:
-                        name = new_name
-                        break
+                        if not new_name:
+                            print('❌ Input can not be empty!')
+                            continue
+                        
+                        if not is_valid_pattern(project):
+                            print('⚠️ Provide a valid name.')
+                            continue
+                        else:
+                            name = new_name
+                            break
 
-                # Second user choice
-            elif user_choice == 2:
-                while True:
-                    new_project = input('What is the new project type? ')
+                    # Second user choice
+                elif user_choice == 2:
+                    while True:
+                        new_project = input('What is the new project type? ')
 
-                    if not project:
-                        print('❌ Project can not be empty!')
-                        continue
-                    
-                    if not is_valid_pattern(new_project):
-                        print('⚠️ Provide a valid Project type.')
-                        continue
-                    else:
-                        project = new_project
-                        break
+                        if not project:
+                            print('❌ Project can not be empty!')
+                            continue
+                        
+                        if not is_valid_pattern(new_project):
+                            print('⚠️ Provide a valid Project type.')
+                            continue
+                        else:
+                            project = new_project
+                            break
 
                 # Third user choice
-            elif user_choice == 3:
-                possible_status = ["Not-Started", "In Progress", "Completed"]
-                while True:
-                    print('\nSelect the new project status:')
-                    for index, status in enumerate(possible_status, start=1):
-                        print(f'\n{index}: {status}')
-                    new_status_input = input('What is the new status of your project? Selcet the number From the options. ') 
-                    
-                    if not new_status_input:
-                        print('❌ Input can not be empty. Please choose from the option.')
-                        continue
+                elif user_choice == 3:
+                    possible_status = ["Not-Started", "In Progress", "Completed"]
+                    while True:
+                        print('\nSelect the new project status:')
+                        for index, status in enumerate(possible_status, start=1):
+                            print(f'\n{index}: {status}')
+                        new_status_input = input('What is the new status of your project? Selcet the number From the options. ') 
+                        
+                        if not new_status_input:
+                            print('❌ Input can not be empty. Please choose from the option.')
+                            continue
 
-                    try:
-                        new_status_input = int(new_status_input)
-                    except ValueError:
-                        print('❌ Choose only from the numbers.')
-                        continue
-                    
-                    if new_status_input:
-                        status = possible_status[int(new_status_input)-1]
-                        break
+                        try:
+                            new_status_input = int(new_status_input)
+                        except ValueError:
+                            print('❌ Choose only from the numbers.')
+                            continue
+                        
+                        if new_status_input:
+                            status = possible_status[int(new_status_input)-1]
+                            break
 
-                # Fourth user choice
-            elif user_choice == 4:
-                while True:
-                    new_deadline = input('When is the deadline?(dd/mm/yyyy) ')
-                    try:
-                        datetime.strptime(new_deadline, "%d/%m/%Y")
-                        deadline = new_deadline
-                        break
-                    except ValueError:
-                        print('Invalid date format. Please use dd/mm/yyyy')
+                    # Fourth user choice
+                elif user_choice == 4:
+                    while True:
+                        new_deadline = input('When is the deadline?(dd/mm/yyyy) ')
+                        try:
+                            datetime.strptime(new_deadline, "%d/%m/%Y")
+                            deadline = new_deadline
+                            break
+                        except ValueError:
+                            print('Invalid date format. Please use dd/mm/yyyy')
             else: 
                 print('❌ Invlaid selection. Choose only from 1-4')
-
         except ValueError:
             print('❌ Only numbers are allowed. Select from the option 1-4')
+
+
 
 def manage_projects(): 
     project_management_mapping = {
