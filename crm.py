@@ -429,25 +429,22 @@ def project_file_openeing(filename="projects.json"):
 
 # Project Viewing Section 
 
-def view_projects(filename="projects.json"):
+def view_projects():
     """
     This function is reusable for the other CRUD operations as i.e. updating and 
     deleting projects. It will open the projects file, read the projects and print 
     them as a list to view. 
     """
-    try:
-        with open(filename, 'r') as file:
-          projects_list = json.load(file)
+    projects_list = project_file_openeing()
+    for index, each_project in enumerate (projects_list, start=1):
+        name = each_project["client_name"]
+        project_type = each_project["project"]
+        status = each_project["status"]
+        deadline = each_project["deadline"]
 
-        for each_project in projects_list:
-            name = each_project["client_name"]
-            project_type = each_project["project"]
-            status = each_project["status"]
-            deadline = each_project["deadline"]
-            print(f'{name} | {project_type} | {status} | {deadline}')
-
-    except FileNotFoundError:
-        print('❌ File can not be found!')
+        print(f'{index}: {name} | {project_type} | {status} | {deadline}')
+    
+    return projects_list
 
 def manage_projects(): 
     project_management_mapping = {
