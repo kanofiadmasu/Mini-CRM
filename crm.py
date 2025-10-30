@@ -437,7 +437,7 @@ def view_projects(filename="projects.json"):
             print(f'{name} | {project_type} | {status} | {deadline}')
 
     except FileNotFoundError:
-        print('❌')
+        print('❌ File can not be found!')
 
 def manage_projects(): 
     project_management_mapping = {
