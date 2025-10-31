@@ -469,6 +469,7 @@ def update_projects(filename="projects.json"):
                 status = project["status"]
                 deadline = project["deadline"]
                 print(f'\n✅{name} | {project_type} | {status} | {deadline}')
+                print('\n')
                 break
         except ValueError:
             print('⚠️ Only number is allowed as an input. ')
@@ -501,7 +502,6 @@ def update_projects(filename="projects.json"):
                             print('⚠️ Provide a valid name.')
                             continue
                         else:
-                            # name = new_name
                             break
 
                 # Second user choice
@@ -509,7 +509,7 @@ def update_projects(filename="projects.json"):
                     while True:
                         new_project = input('What is the new project type? ')
 
-                        if not project:
+                        if not new_project:
                             print('❌ Project can not be empty!')
                             continue
                         
@@ -517,7 +517,6 @@ def update_projects(filename="projects.json"):
                             print('⚠️ Provide a valid Project type.')
                             continue
                         else:
-                            # project = new_project
                             break
 
                 # Third user choice
@@ -540,7 +539,6 @@ def update_projects(filename="projects.json"):
                             continue
                         
                         if new_status_input:
-                            # status = possible_status[int(new_status_input)-1]
                             break
 
                 # Fourth user choice
@@ -549,7 +547,6 @@ def update_projects(filename="projects.json"):
                         new_deadline = input('When is the deadline?(dd/mm/yyyy) ')
                         try:
                             datetime.strptime(new_deadline, "%d/%m/%Y")
-                            # deadline = new_deadline
                             break
                         except ValueError:
                             print('Invalid date format. Please use dd/mm/yyyy')
@@ -561,9 +558,17 @@ def update_projects(filename="projects.json"):
         except ValueError:
             print('❌ Only numbers are allowed. Select from the option 1-4')
 
-    # updete the project_list and the projects_file
-    
+    # Update the project_list and the projects_file
 
+    name = new_name
+    project = new_project
+    status = possible_status[int(new_status_input)-1]
+    deadline = new_deadline
+
+    with open(filename, 'w') as file:
+        json.dump(projects_list, file, indent=4)
+    print(f'\n{name} | {project} | {status} | {deadline}')
+    print('✅ Project updated successfully! ')
 
 
 def manage_projects(): 
