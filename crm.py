@@ -569,12 +569,46 @@ def update_projects(filename="projects.json"):
     print(f'\n{name} | {project} | {status} | {deadline}')
     print('✅ Project updated successfully! ')
 
+# Project Deletion Section 
+def project_deletion(filename='projects.json'):
+    projects_list = view_projects()
+
+    while True:
+        try:
+            delete_choice = int(input('\nWhich Project would you like to delete? Select the number associated with it. '))
+
+            if not delete_choice:
+                print('❌ Input can not be empty!')
+                continue
+
+            if delete_choice < 1 or delete_choice > len(projects_list):
+                print('❌Invlaid selection. Select from the numbers associated with the data.')
+                continue
+            else:
+                break
+        except ValueError:
+            print('⚠️ Invalid Selection. Select only numbers.')
+
+    deleted_project = projects_list.pop(delete_choice - 1)
+    try:
+        with open(filename, 'w') as file:
+            json.dump(projects_list, file, indent=4)
+    except FileNotFoundError:
+        print('❌ Projects file not found. ')
+
+    name = deleted_project["client_name"]
+    project = deleted_project["project"]
+    status = deleted_project["status"]
+    deadline = deleted_project["deadline"]
+    
+    print(f'\n✅ Project deleted successfully: {name} | {project} | {status} | {deadline}')
 
 def manage_projects(): 
     project_management_mapping = {
          1: preparation_function, # This is the function that calls the project_adding function depending on the condition
          2: view_projects,
-         3: update_projects
+         3: update_projects,
+         4: project_deletion
     }
 
     while True:
