@@ -460,8 +460,9 @@ def update_projects(filename="projects.json"):
 
             if user_choice < 1 or user_choice > len(projects_list):
                 print('❌Invlaid selection. Select from the numbers associated with the data.')
-                continue 
-            else: 
+                continue
+
+            else:
                 project = projects_list[user_choice-1]
                 name = project["client_name"]
                 project_type = project["project"]
@@ -472,23 +473,23 @@ def update_projects(filename="projects.json"):
         except ValueError:
             print('⚠️ Only number is allowed as an input. ')
 
-# Asking which section the user would like to update. 
+    # Asking which section the user would like to update. 
     update_choices = ['Client Name', 'Project Type', 'Status', 'Deadline']
     while True:
         for index, options in enumerate(update_choices, start=1):
             print(f'{index}: {options}')
     
         try:
-            user_choice = int(input('\nWhich section would you like to update? '))
+            user_input= int(input('\nWhich section would you like to update? '))
 
-            if not user_choice:
+            if not user_input:
                 print('❌ Input can not be empty. Select from the possible options.')
                 continue
             
             # If User input is with in this numbers, updating will continue depending on the input
-            if user_choice in [1, 2, 3, 4]:
+            if user_input in [1, 2, 3, 4]:
                 # Frist user choice
-                if user_choice == 1:
+                if user_input == 1:
                     while True:
                         new_name = input('What is the new client name? ')
 
@@ -496,15 +497,15 @@ def update_projects(filename="projects.json"):
                             print('❌ Input can not be empty!')
                             continue
                         
-                        if not is_valid_pattern(project):
+                        if not is_valid_pattern(new_name):
                             print('⚠️ Provide a valid name.')
                             continue
                         else:
-                            name = new_name
+                            # name = new_name
                             break
 
-                    # Second user choice
-                elif user_choice == 2:
+                # Second user choice
+                elif user_input == 2:
                     while True:
                         new_project = input('What is the new project type? ')
 
@@ -516,16 +517,16 @@ def update_projects(filename="projects.json"):
                             print('⚠️ Provide a valid Project type.')
                             continue
                         else:
-                            project = new_project
+                            # project = new_project
                             break
 
                 # Third user choice
-                elif user_choice == 3:
+                elif user_input== 3:
                     possible_status = ["Not-Started", "In Progress", "Completed"]
                     while True:
                         print('\nSelect the new project status:')
-                        for index, status in enumerate(possible_status, start=1):
-                            print(f'\n{index}: {status}')
+                        for index, valid_status in enumerate(possible_status, start=1):
+                            print(f'\n{index}: {valid_status}')
                         new_status_input = input('What is the new status of your project? Selcet the number From the options. ') 
                         
                         if not new_status_input:
@@ -539,23 +540,29 @@ def update_projects(filename="projects.json"):
                             continue
                         
                         if new_status_input:
-                            status = possible_status[int(new_status_input)-1]
+                            # status = possible_status[int(new_status_input)-1]
                             break
 
-                    # Fourth user choice
-                elif user_choice == 4:
+                # Fourth user choice
+                elif user_input == 4:
                     while True:
                         new_deadline = input('When is the deadline?(dd/mm/yyyy) ')
                         try:
                             datetime.strptime(new_deadline, "%d/%m/%Y")
-                            deadline = new_deadline
+                            # deadline = new_deadline
                             break
                         except ValueError:
                             print('Invalid date format. Please use dd/mm/yyyy')
-            else: 
-                print('❌ Invlaid selection. Choose only from 1-4')
+                else: 
+                    print('❌ Invlaid selection. Choose only from 1-4')
+                
+                break  #Exit the update loop
+
         except ValueError:
             print('❌ Only numbers are allowed. Select from the option 1-4')
+
+    # updete the project_list and the projects_file
+    
 
 
 
