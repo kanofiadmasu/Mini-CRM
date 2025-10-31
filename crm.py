@@ -502,6 +502,7 @@ def update_projects(filename="projects.json"):
                             print('⚠️ Provide a valid name.')
                             continue
                         else:
+                            name = new_name
                             break
 
                 # Second user choice
@@ -517,6 +518,7 @@ def update_projects(filename="projects.json"):
                             print('⚠️ Provide a valid Project type.')
                             continue
                         else:
+                            project = new_project
                             break
 
                 # Third user choice
@@ -539,6 +541,7 @@ def update_projects(filename="projects.json"):
                             continue
                         
                         if new_status_input:
+                            status = possible_status[int(new_status_input)-1]
                             break
 
                 # Fourth user choice
@@ -547,6 +550,7 @@ def update_projects(filename="projects.json"):
                         new_deadline = input('When is the deadline?(dd/mm/yyyy) ')
                         try:
                             datetime.strptime(new_deadline, "%d/%m/%Y")
+                            deadline = new_deadline
                             break
                         except ValueError:
                             print('Invalid date format. Please use dd/mm/yyyy')
@@ -559,11 +563,6 @@ def update_projects(filename="projects.json"):
             print('❌ Only numbers are allowed. Select from the option 1-4')
 
     # Update the project_list and the projects_file
-
-    name = new_name
-    project = new_project
-    status = possible_status[int(new_status_input)-1]
-    deadline = new_deadline
 
     with open(filename, 'w') as file:
         json.dump(projects_list, file, indent=4)
