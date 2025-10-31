@@ -431,9 +431,8 @@ def project_file_openeing(filename="projects.json"):
 
 def view_projects():
     """
-    This function is reusable for the other CRUD operations as i.e. updating and 
-    deleting projects. It will open the projects file, read the projects and print 
-    them as a list to view. 
+    Reusable function for the other CRUD operations as i.e. updating and 
+    deleting projects.
     """
     projects_list = project_file_openeing()
     for index, each_project in enumerate (projects_list, start=1):
