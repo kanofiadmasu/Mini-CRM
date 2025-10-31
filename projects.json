@@ -7,13 +7,6 @@
         "deadline": "25 December, 2024"
     },
     {
-        "client_name": "Bob",
-        "project": "Web Design",
-        "status": "Not started",
-        "start_date": "07/09/2025",
-        "deadline": "October 02, 2025"
-    },
-    {
         "client_name": "Test",
         "project": "App development",
         "status": "Not-Started",
@@ -26,13 +19,6 @@
         "status": "Not-Started",
         "start_date": "25/10/2025",
         "deadline": "12/12/2025"
-    },
-    {
-        "client_name": "Bob",
-        "project": "AI",
-        "status": "Not-Started",
-        "start_date": "25/10/2025",
-        "deadline": "12/02/2025"
     },
     {
         "client_name": "Main Testing",

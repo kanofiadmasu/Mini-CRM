@@ -417,32 +417,197 @@ def handle_project_adding(client_name=None, for_new=True):
         projects.saving_projects()
         print('\n✅ Project Added Successfully!\n')
 
-# Project Viewing Section 
-
-def view_projects(filename="projects.json"):
-    """
-    This function is reusable for the other CRUD operations as well--updating and 
-    deleting projects. It will open the projects file, read the projects and print 
-    them as a list to view. 
-    """
+# Project Reading Function 
+def project_file_openeing(filename="projects.json"):
     try:
         with open(filename, 'r') as file:
-          projects_list = json.load(file)
-
-        for each_project in projects_list:
-            name = each_project["client_name"]
-            project_type = each_project["project"]
-            status = each_project["status"]
-            deadline = each_project["deadline"]
-            print(f'{name} | {project_type} | {status} | {deadline}')
-
+            projects_list = json.load(file)
     except FileNotFoundError:
-        print('❌ File can not be found!')
+        print('❌The file is not found! ')
+
+    return projects_list 
+
+# Project Viewing Section 
+
+def view_projects():
+    """
+    Reusable function for the other CRUD operations as i.e. updating and 
+    deleting projects.
+    """
+    projects_list = project_file_openeing()
+    for index, each_project in enumerate (projects_list, start=1):
+        name = each_project["client_name"]
+        project_type = each_project["project"]
+        status = each_project["status"]
+        deadline = each_project["deadline"]
+
+        print(f'{index}: {name} | {project_type} | {status} | {deadline}')
+    
+    return projects_list
+
+# Project Updating Function
+def update_projects(filename="projects.json"):
+    projects_list = view_projects()
+
+    while True: 
+        try:
+            user_choice = int(input('\nSelect the project number you would like to update. '))
+
+            if not user_choice:
+                print('❌ Input can not be empty. Choose the number associated with the project.')
+                continue
+
+            if user_choice < 1 or user_choice > len(projects_list):
+                print('❌Invlaid selection. Select from the numbers associated with the data.')
+                continue
+
+            else:
+                project = projects_list[user_choice-1]
+                name = project["client_name"]
+                project_type = project["project"]
+                status = project["status"]
+                deadline = project["deadline"]
+                print(f'\n✅{name} | {project_type} | {status} | {deadline}')
+                print('\n')
+                break
+        except ValueError:
+            print('⚠️ Only number is allowed as an input. ')
+
+    # Asking which section the user would like to update. 
+    update_choices = ['Client Name', 'Project Type', 'Status', 'Deadline']
+    while True:
+        for index, options in enumerate(update_choices, start=1):
+            print(f'{index}: {options}')
+    
+        try:
+            user_input= int(input('\nWhich section would you like to update? '))
+
+            if not user_input:
+                print('❌ Input can not be empty. Select from the possible options.')
+                continue
+            
+            # If User input is with in this numbers, updating will continue depending on the input
+            if user_input in [1, 2, 3, 4]:
+                # Frist user choice
+                if user_input == 1:
+                    while True:
+                        new_name = input('What is the new client name? ')
+
+                        if not new_name:
+                            print('❌ Input can not be empty!')
+                            continue
+                        
+                        if not is_valid_pattern(new_name):
+                            print('⚠️ Provide a valid name.')
+                            continue
+                        else:
+                            name = new_name
+                            break
+
+                # Second user choice
+                elif user_input == 2:
+                    while True:
+                        new_project = input('What is the new project type? ')
+
+                        if not new_project:
+                            print('❌ Project can not be empty!')
+                            continue
+                        
+                        if not is_valid_pattern(new_project):
+                            print('⚠️ Provide a valid Project type.')
+                            continue
+                        else:
+                            project = new_project
+                            break
+
+                # Third user choice
+                elif user_input== 3:
+                    possible_status = ["Not-Started", "In Progress", "Completed"]
+                    while True:
+                        print('\nSelect the new project status:')
+                        for index, valid_status in enumerate(possible_status, start=1):
+                            print(f'\n{index}: {valid_status}')
+                        new_status_input = input('What is the new status of your project? Selcet the number From the options. ') 
+                        
+                        if not new_status_input:
+                            print('❌ Input can not be empty. Please choose from the option.')
+                            continue
+
+                        try:
+                            new_status_input = int(new_status_input)
+                        except ValueError:
+                            print('❌ Choose only from the numbers.')
+                            continue
+                        
+                        if new_status_input:
+                            status = possible_status[int(new_status_input)-1]
+                            break
+
+                # Fourth user choice
+                elif user_input == 4:
+                    while True:
+                        new_deadline = input('When is the deadline?(dd/mm/yyyy) ')
+                        try:
+                            datetime.strptime(new_deadline, "%d/%m/%Y")
+                            deadline = new_deadline
+                            break
+                        except ValueError:
+                            print('Invalid date format. Please use dd/mm/yyyy')
+                else: 
+                    print('❌ Invlaid selection. Choose only from 1-4')
+                
+                break  #Exit the update loop
+
+        except ValueError:
+            print('❌ Only numbers are allowed. Select from the option 1-4')
+
+    # Update the project_list and the projects_file
+
+    with open(filename, 'w') as file:
+        json.dump(projects_list, file, indent=4)
+    print(f'\n{name} | {project} | {status} | {deadline}')
+    print('✅ Project updated successfully! ')
+
+# Project Deletion Section 
+def project_deletion(filename='projects.json'):
+    projects_list = view_projects()
+
+    while True:
+        try:
+            delete_choice = int(input('\nWhich Project would you like to delete? Select the number associated with it. '))
+
+            if not delete_choice:
+                print('❌ Input can not be empty!')
+                continue
+
+            if delete_choice < 1 or delete_choice > len(projects_list):
+                print('❌Invlaid selection. Select from the numbers associated with the data.')
+                continue
+            else:
+                break
+        except ValueError:
+            print('⚠️ Invalid Selection. Select only numbers.')
+
+    deleted_project = projects_list.pop(delete_choice - 1)
+    try:
+        with open(filename, 'w') as file:
+            json.dump(projects_list, file, indent=4)
+    except FileNotFoundError:
+        print('❌ Projects file not found. ')
+
+    name = deleted_project["client_name"]
+    project = deleted_project["project"]
+    status = deleted_project["status"]
+    deadline = deleted_project["deadline"]
+    
+    print(f'\n✅ Project deleted successfully: {name} | {project} | {status} | {deadline}')
 
 def manage_projects(): 
     project_management_mapping = {
          1: preparation_function, # This is the function that calls the project_adding function depending on the condition
-         2: view_projects
+         2: view_projects,
+         3: update_projects,
+         4: project_deletion
     }
 
     while True:
