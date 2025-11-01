@@ -1,6 +1,6 @@
 # MINI-CRM 
 
-This is my second personal project that I am building only using python to solidify my understanding in python. This is a CLI App that is usefull for freelancers.
+This is my second personal project that I am building only using python to solidify my understanding in Language. This is a CLI App that is usefull for freelancers.
 It is designed to help freelancers to track their projects, manage clients, and manage their finances. 
 
 This project is teaching me a lot of new concepts in python and also industry standard concepts like software development cycle, Design flows, planning software before building it and technical lessons like function dispatching, some design patterns(extensible design pattern), and many more concpets. 
