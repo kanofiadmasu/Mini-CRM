@@ -2,7 +2,7 @@ from datetime import datetime
 import re 
 import json
 
-print('\nWelcome to the CRM system for freelancers!')
+print('\nWelcome to the CRM system for freelancers!\n')
 class Clients(): 
     def __init__(self, name, phone_num, company, notes): 
         self.name = name
@@ -60,7 +60,6 @@ class Projects: #Project adding and creation
         return projects_list
 
 # Function to check for correct name input pattern
-
 def is_valid_pattern(user_input):
     return bool(re.match(r"^[A-Za-z0-9\s\-\']+$", user_input.strip()))
     
@@ -94,7 +93,6 @@ def add_client():
     return name, phone_num, company, notes 
 
 # File openeing function, main use is to modularize
-
 def client_file_opening(filename='clients.txt'):
     """
     Opens the client file and returns a the clients. 
@@ -113,7 +111,6 @@ def client_file_opening(filename='clients.txt'):
         return []
 
 # Viewing All Clients 
-
 '''Here in the function below we will both read the 
    clients and also save them in a client list for later
    use for searching'''
@@ -158,8 +155,7 @@ def search_clients(clients):
             
         print('❌ Client not found.\n')
 
-# So the above two functions(view-all-clients and searching) will work together to provide the desired out come
-
+# The above two functions(view-all-clients and searching) will work together to provide the desired out come
 def delete_client(client_lines, filename='clients.txt'):
 
     for index, each_client in enumerate(client_lines, start= 1):
@@ -182,8 +178,7 @@ def delete_client(client_lines, filename='clients.txt'):
             
     deleted_client = client_lines.pop(user_deletion_input - 1)
 
-        #then after deletion we have to update the list so we are going 
-        #to write it using write mode in python
+        #After deletion update the list and write it on the file.
 
     with open(filename, 'w') as file:
         for line in client_lines:
@@ -428,7 +423,6 @@ def project_file_openeing(filename="projects.json"):
     return projects_list 
 
 # Project Viewing Section 
-
 def view_projects():
     """
     Reusable function for the other CRUD operations as i.e. updating and 
@@ -636,7 +630,6 @@ def manage_projects():
             print('Please, provide the right input!')
           
 # Main menu section 
-
 def main_menu():
     main_function_mapping = {
         1: manage_clients,
