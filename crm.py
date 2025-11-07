@@ -1,6 +1,8 @@
 from datetime import datetime
 import re 
 import json
+import random
+import string
 
 print('\nWelcome to the CRM system for freelancers!\n')
 class Clients(): 
@@ -61,8 +63,15 @@ class Projects: #Project adding and creation
 
 # Invoices Class
 class Invoice:
-    def __init__(self, client_name):
-        pass
+    def __init__(self, invoice_id, client_name, project_name, amount, status, issue_date, due_date):
+        self.invoice_id = random.choice(string.ascii_letters + string.digits)
+        self.client_name = client_name,
+        self.project_name = project_name, 
+        self.amout = amount,
+        self.status = stauts, 
+        self.issue_date = datetime.now().strftime('%d/%m/%Y')
+        self.due_date = due_date
+    
 
 # Function to check for correct name input pattern
 def is_valid_pattern(user_input):
