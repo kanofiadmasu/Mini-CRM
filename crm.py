@@ -59,6 +59,11 @@ class Projects: #Project adding and creation
 
         return projects_list
 
+# Invoices Class
+class Invoice:
+    def __init__(self, client_name):
+        pass
+
 # Function to check for correct name input pattern
 def is_valid_pattern(user_input):
     return bool(re.match(r"^[A-Za-z0-9\s\-\']+$", user_input.strip()))
