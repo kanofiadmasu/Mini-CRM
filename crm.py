@@ -64,7 +64,7 @@ class Projects: #Project adding and creation
 # Invoices Class
 class Invoice:
     def __init__(self, invoice_id, client_name, project_name, amount, status, issue_date, due_date):
-        self.invoice_id = random.choice(string.ascii_letters + string.digits)
+        self.invoice_id = ''.join(random.choice(string.ascii_letters + string.digits)for _ in range(4))
         self.client_name = client_name,
         self.project_name = project_name, 
         self.amout = amount,
@@ -72,6 +72,8 @@ class Invoice:
         self.issue_date = datetime.now().strftime('%d/%m/%Y')
         self.due_date = due_date
     
+    def save_to_file(self, filename='invoice.json'):
+        pass 
 
 # Function to check for correct name input pattern
 def is_valid_pattern(user_input):
