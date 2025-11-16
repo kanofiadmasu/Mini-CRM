@@ -68,7 +68,7 @@ class Invoice:
         self.client_name = client_name,
         self.project_name = project_name, 
         self.amout = amount,
-        self.status = stauts, 
+        self.status = status, 
         self.issue_date = datetime.now().strftime('%d/%m/%Y')
         self.due_date = due_date
     
