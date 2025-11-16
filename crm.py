@@ -73,7 +73,11 @@ class Invoice:
         self.due_date = due_date
     
     def save_to_file(self, filename='invoice.json'):
-        pass 
+        try:
+            with open(filename, 'w') as file:
+                json.load(file)
+        except FileNotFoundError:
+            print('❌File is not found!')
 
 # Function to check for correct name input pattern
 def is_valid_pattern(user_input):
