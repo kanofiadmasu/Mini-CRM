@@ -95,8 +95,17 @@ class Invoice:
             with open(filename, 'w') as file:
                 json.dump(file)
         except FileNotFoundError:
-            print('❌File not found. ')
+            print('❌File not found.')
 
+    @staticmethod
+    def load_all_invoice(filename="invoice.json"):
+        # Resuable static method for other CRUD on the filename
+        try:
+            with open(filename, 'r') as file:
+                return json.load(file)
+        except (FileNotFoundError, json.JSONDecodererror):
+            print('\n❌Error, either file not found, or parsing error.')
+            return []
 
 # Function to check for correct name input pattern
 def is_valid_pattern(user_input):
