@@ -67,17 +67,36 @@ class Invoice:
         self.invoice_id = ''.join(random.choice(string.ascii_letters + string.digits)for _ in range(4))
         self.client_name = client_name,
         self.project_name = project_name, 
-        self.amout = amount,
+        self.amount = amount,
         self.status = status, 
         self.issue_date = datetime.now().strftime('%d/%m/%Y')
         self.due_date = due_date
     
     def save_to_file(self, filename='invoice.json'):
         try:
-            with open(filename, 'w') as file:
-                json.load(file)
+            with open(filename, 'r') as file:
+                invoice_list = json.load(file)
         except FileNotFoundError:
-            print('❌File is not found!')
+            invoice_list = []
+
+        invoice = {
+            "invoice_id": self.invoice_id,
+            "client_name": self.client_name,
+            "project_name": self.project_name,
+            "price_amount": self.amount,
+            "status": self.status,
+            "issue_date": self.issue_date,
+            "due_date": self.due_date
+        }
+        
+        invoice_list.append(invoice)
+
+        try:
+            with open(filename, 'w') as file:
+                json.dump(file)
+        except FileNotFoundError:
+            print('❌File not found. ')
+
 
 # Function to check for correct name input pattern
 def is_valid_pattern(user_input):
