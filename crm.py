@@ -103,9 +103,32 @@ class Invoice:
         try:
             with open(filename, 'r') as file:
                 return json.load(file)
-        except (FileNotFoundError, json.JSONDecodererror):
+        except (FileNotFoundError, json.JSONDecodeError):
             print('\n❌Error, either file not found, or parsing error.')
             return []
+
+    @staticmethod
+    def view_all_incoice():
+        invoices = Invoice.load_all_invoice()
+    
+        for index, each_invoice in enumerate(invoices, start=1):
+            invoice_id = each_invoice["invoice_id"]
+            client_name = each_invoice["clinet_name"]
+            project_name = each_invoice["project_name"]
+            price_amount = each_invoice["price_amount"]
+            status = each_invoice["status"]
+            issue_date = each_invoice["issue_date"]
+            due_date = each_invoice["due_date"]
+
+        print(f'\n{index}: {invoice_id} | {client_name} | {project_name} | {price_amount} | {status} | {issue_date} | {due_date}')
+        
+    @staticmethod
+    def update_invoice():
+        pass
+
+    @staticmethod
+    def delete_invoice():
+        pass
 
 # Function to check for correct name input pattern
 def is_valid_pattern(user_input):
