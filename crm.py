@@ -190,8 +190,41 @@ class Invoice:
         pass
 
     @staticmethod
-    def delete_invoice():
-        pass
+    def delete_invoice(filename='invoice.json'):
+        invoices_list = Invoice.view_all_incoice()
+
+        while True:
+            try:
+                delete_choice = int(input('\nWhich Invoice would you like to delete? Select the number associated with it. '))
+
+                if not delete_choice:
+                    print('❌ Input can not be empty!')
+                    continue
+
+                if delete_choice < 1 or delete_choice > len(invoices_list):
+                    print('❌Invlaid selection. Select from the numbers associated with the data.')
+                    continue
+                else:
+                    break
+            except ValueError:
+                print('⚠️ Invalid Selection. Select only numbers.')
+
+        deleted_invoice = invoices_list.pop(delete_choice - 1)
+        try:
+            with open(filename, 'w') as file:
+                json.dump(invoices_list, file, indent=4)
+        except FileNotFoundError:
+            print('❌ Invoice file not found. ')
+        
+        invoice_id = deleted_invoice["invoice_id"]
+        name = deleted_invoice["client_name"]
+        project = deleted_invoice["project_name"]
+        price_amount = deleted_invoice["price_amount"]
+        status = deleted_invoice["status"]
+        issue_date = deleted_invoice["issue_date"]
+        due_date = deleted_invoice["due_date"]
+        
+        print(f'\n✅ Invoice deleted successfully: {invoice_id} | {name} | {project} | {price_amount} | {status} | {issue_date} | {due_date}')
     
 '''This Functions are Under Manage client Functions'''
 # Client Adding Section
