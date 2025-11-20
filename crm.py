@@ -928,7 +928,40 @@ def manage_projects():
                 print('Please, choose the right number(1-5)')                
         except ValueError:
             print('Please, provide the right input!')
+
+# INVOICE MANAGMET FUNCTION
+def manage_invoice():
+    invoice_management_mapping = {
+        1: Invoice.add_invoice,
+        2: Invoice.view_all_incoice,
+        3: Invoice.update_invoice,
+        4: Invoice.delete_invoice
+    }
           
+    while True:
+        invoice_management_choices = [
+            'Add Invoice',
+            'View All Invoices',
+            'Update Invoice',
+            'Delete Invoice',
+            'Back to Main Menu'
+        ]
+
+        for index, choices in enumerate(invoice_management_choices, start=1):
+            print(f'\n {index}: {choices}')
+
+        try:
+            user_choice = int(input('\nWhat do you want to manage in projects? '))
+            action = invoice_management_mapping.get(user_choice)
+            if action:
+                action()
+            elif user_choice == 5:
+                break
+            else:
+                print('❌ Please chose the right number(1-5)')
+        except ValueError:
+            print('Please provide the right input!')
+
 # Main menu section 
 def main_menu():
     main_function_mapping = {
@@ -941,8 +974,7 @@ def main_menu():
         main_choices =[ 
                     ' Manage Clients',
                     ' Manage Projects',
-                    ' Create Invoices',
-                    ' Record Payments',
+                    ' Manage Invoices',
                      ]
         
         for index, option in enumerate(main_choices, start=1):
