@@ -4,7 +4,7 @@ import json
 import random
 import string
 
-print('\nWelcome to the CRM system for freelancers!\n')
+print('\nWELCOME TO CRM SYSTME FOR FRELANCERS!\n')
 class Clients(): 
     def __init__(self, name, phone_num, company, notes): 
         self.name = name
@@ -67,7 +67,7 @@ def is_valid_pattern(user_input):
 
 # Invoices Class
 class Invoice:
-    def __init__(self, client_name, project_name, amount, status, issue_date, due_date):
+    def __init__(self, client_name, project_name, amount, status, due_date):
         self.invoice_id = ''.join(random.choice(string.ascii_letters + string.digits)for _ in range(4))
         self.client_name = client_name
         self.project_name = project_name 
