@@ -170,6 +170,14 @@ class Invoice:
 
         return client_name, project_name, amount, status, due_date
 
+    # Handle Invoice Adding
+    @staticmethod
+    def handle_invoice_adding():
+        client_name, project_name, amount, status, due_date = Invoice.add_invoice()
+        invoices = Invoice(client_name, project_name, amount, status, due_date)
+        invoices.save_to_file()
+        print('f\n✅Invoice Added Successfully!')
+
     @staticmethod
     def view_all_incoice():
         invoices = Invoice.load_all_invoice()
@@ -324,7 +332,7 @@ class Invoice:
         with open(filename, 'w') as file:
             json.dump(invoices_list, file, indent=7)
         print(f'\n{name} | {project_name} | {price_amount} | {status} | {issue_date} | {due_date}')
-        print('✅ Project updated successfully! ')
+        print('✅ Invoice updated successfully! ')
 
     @staticmethod
     def delete_invoice(filename='invoice.json'):
@@ -932,7 +940,7 @@ def manage_projects():
 # INVOICE MANAGMET FUNCTION
 def manage_invoice():
     invoice_management_mapping = {
-        1: Invoice.add_invoice,
+        1: Invoice.handle_invoice_adding,
         2: Invoice.view_all_incoice,
         3: Invoice.update_invoice,
         4: Invoice.delete_invoice
