@@ -182,12 +182,149 @@ class Invoice:
             status = each_invoice["status"]
             issue_date = each_invoice["issue_date"]
             due_date = each_invoice["due_date"]
-
-        print(f'\n{index}: {invoice_id} | {client_name} | {project_name} | {price_amount} | {status} | {issue_date} | {due_date}')
+        print('\n')
+        print(f'{index}: {invoice_id} | {client_name} | {project_name} | {price_amount} | {status} | {issue_date} | {due_date}')
         
     @staticmethod
-    def update_invoice():
-        pass
+    def update_invoice(filename='invoice.json'):
+        invoices_list = Invoice.view_all_incoice()
+
+        while True: 
+            try:
+                user_choice = int(input('\nSelect the Invoice number you would like to update. '))
+
+                if not user_choice:
+                    print('❌ Input can not be empty. Choose the number associated with the project.')
+                    continue
+
+                if user_choice < 1 or user_choice > len(invoices_list):
+                    print('❌Invlaid selection. Select from the numbers associated with the data.')
+                    continue
+
+                else:
+                    invoice = invoices_list[user_choice-1]
+                    invoice_id = invoice["invoice_id"]
+                    name = invoice["client_name"]
+                    project_name= invoice["project_name"]
+                    price_amount = invoice["price_amount"]
+                    status = invoice["status"]
+                    issue_date = invoice["issue_date"]
+                    due_date= invoice["due_date"]
+                    print(f'\n✅{invoice_id} | {name} | {project_name} | {price_amount} | {status} | {issue_date} | {due_date} ')
+                    print('\n')
+                    break
+            except ValueError:
+                print('⚠️ Only number is allowed as an input. ')
+
+        update_choices = ['Client Name', 'Project Type', 'Price Amount', 'Status', 'Due Date']
+        while True:
+            for index, options in enumerate(update_choices, start=1):
+                print(f'{index}: {options}')
+        
+            try:
+                user_input= int(input('\nWhich section would you like to update? '))
+
+                if not user_input:
+                    print('❌ Input can not be empty. Select from the possible options.')
+                    continue
+                
+                # If User input is with in this numbers, updating will continue depending on the input
+                if user_input in [1, 2, 3, 4, 5]:
+                    # Frist user choice
+                    if user_input == 1:
+                        while True:
+                            new_name = input('What is the new client name? ')
+
+                            if not new_name:
+                                print('❌ Input can not be empty!')
+                                continue
+                            
+                            if not is_valid_pattern(new_name):
+                                print('⚠️ Provide a valid name.')
+                                continue
+                            else:
+                                name = new_name
+                                break
+
+                    # Second user choice
+                    elif user_input == 2:
+                        while True:
+                            new_project = input('What is the new project type? ')
+
+                            if not new_project:
+                                print('❌ Project can not be empty!')
+                                continue
+                            
+                            if not is_valid_pattern(new_project):
+                                print('⚠️ Provide a valid Project type.')
+                                continue
+                            else:
+                                project_name = new_project
+                                break
+                    
+                    # Third User Choice
+                    elif user_input == 3:
+                        while True:
+                            new_amount = input('What is the new price amount? Enter numerical value only? ')
+
+                            if not new_amount:
+                                print('❌ Amount can not be empty!')
+
+                            try:
+                                new_amount = int(new_amount)
+                                price_amount = new_amount
+                                break 
+                            except ValueError:
+                                print('❌ The price amount can only be numerical.')
+                                continue
+
+                    # Fourth user choice
+                    elif user_input== 4:
+                        possible_status = ["Pending", "Paid", "Over Due", "Cancelled"]
+                        while True:
+                            print('\nSelect the new project status:')
+                            for index, valid_status in enumerate(possible_status, start=1):
+                                print(f'\n{index}: {valid_status}')
+                            new_status_input = input('What is the new status of your project? Selcet the number From the options. ') 
+                            
+                            if not new_status_input:
+                                print('❌ Input can not be empty. Please choose from the option.')
+                                continue
+
+                            try:
+                                new_status_input = int(new_status_input)
+                            except ValueError:
+                                print('❌ Choose only from the numbers.')
+                                continue
+                            
+                            if new_status_input:
+                                status = possible_status[int(new_status_input)-1]
+                                break
+
+                    # Fifth user choice
+                    elif user_input == 5:
+                        while True:
+                            new_deadline = input('When is the deadline?(dd/mm/yyyy) ')
+                            try:
+                                datetime.strptime(new_deadline, "%d/%m/%Y")
+                                due_date = new_deadline
+                                break
+                            except ValueError:
+                                print('Invalid date format. Please use dd/mm/yyyy')
+                    else: 
+                        print('❌ Invlaid selection. Choose only from 1-4')
+                    
+                    break  #Exit the update loop
+
+            except ValueError:
+                print('❌ Only numbers are allowed. Select from the option 1-4')
+
+        # Update the project_list and the projects_file
+
+        with open(filename, 'w') as file:
+            json.dump(invoices_list, file, indent=7)
+        print(f'\n{name} | {project_name} | {price_amount} | {status} | {issue_date} | {due_date}')
+        print('✅ Project updated successfully! ')
 
     @staticmethod
     def delete_invoice(filename='invoice.json'):
