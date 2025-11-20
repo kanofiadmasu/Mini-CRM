@@ -60,15 +60,19 @@ class Projects: #Project adding and creation
             print('Couldn\'t find the file.')
 
         return projects_list
+    
+# Function to check for correct name input pattern
+def is_valid_pattern(user_input):
+    return bool(re.match(r"^[A-Za-z0-9\s\-\']+$", user_input.strip()))
 
 # Invoices Class
 class Invoice:
-    def __init__(self, invoice_id, client_name, project_name, amount, status, issue_date, due_date):
+    def __init__(self, client_name, project_name, amount, status, issue_date, due_date):
         self.invoice_id = ''.join(random.choice(string.ascii_letters + string.digits)for _ in range(4))
-        self.client_name = client_name,
-        self.project_name = project_name, 
-        self.amount = amount,
-        self.status = status, 
+        self.client_name = client_name
+        self.project_name = project_name 
+        self.amount = amount
+        self.status = status 
         self.issue_date = datetime.now().strftime('%d/%m/%Y')
         self.due_date = due_date
     
@@ -106,6 +110,65 @@ class Invoice:
         except (FileNotFoundError, json.JSONDecodeError):
             print('\n❌Error, either file not found, or parsing error.')
             return []
+        
+    @staticmethod 
+    def add_invoice():        
+        while True:
+            client_name = input('What is the name of the client? ').strip()
+            if is_valid_pattern(client_name):
+                break
+            print('❌Invalid name. Please provide a correct name')
+
+        # Project name
+        while True:
+            project_name = input('What is the project name? ')
+            if is_valid_pattern(project_name):
+                break
+            print('❌ Invalid project name. Please provide a correct project name.')
+
+        # Billing amount
+        while True:
+            amount = input('What is the price for the work? Input only numerical Value.')
+            try:
+                amount = int(amount)
+                break
+            except ValueError:
+                print('❌ Provided the wrong input, try providng numerical amount for the price.')
+
+        # Invoice Status
+        while True:
+            possible_status = ['Pending', 'Paid', 'Overdue', 'Cancelled']
+            
+            for index, status in enumerate(possible_status, start=1):
+                print('\n')
+                print(f'{index}: {status}')
+
+            invoice_status = input('What is the status of the invoice. Please select from the given options. ')
+
+            if not invoice_status:
+                print('❌ Status can not be empty, select from the option?')
+                continue
+
+            try:
+                invoice_status = int(invoice_status)
+                break
+            except ValueError:
+                print('❌Input can only be numerical, select from the options give.')
+
+            if invoice_status:
+                status = possible_status[invoice_status - 1]
+                break
+        
+        # Due Date for the payment
+        while True:
+            due_date = input('When is the due date for the payment? Enter in the form(dd/mm/yyyy) ')
+            try:
+                datetime.strptime(due_date, "%d/%m/%Y")
+                break
+            except ValueError:
+                print('❌ Invalid date format. Please use dd/mm/yyyy')
+
+        return client_name, project_name, amount, status, due_date
 
     @staticmethod
     def view_all_incoice():
@@ -129,10 +192,6 @@ class Invoice:
     @staticmethod
     def delete_invoice():
         pass
-
-# Function to check for correct name input pattern
-def is_valid_pattern(user_input):
-    return bool(re.match(r"^[A-Za-z0-9\s\-\']+$", user_input.strip()))
     
 '''This Functions are Under Manage client Functions'''
 # Client Adding Section
