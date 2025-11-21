@@ -4,7 +4,7 @@ import json
 import random
 import string
 
-print('\nWELCOME TO CRM SYSTME FOR FRELANCERS!\n')
+print('\nWELCOME TO CRM SYSTEM FOR FRELANCERS!\n')
 class Clients(): 
     def __init__(self, name, phone_num, company, notes): 
         self.name = name
@@ -97,7 +97,7 @@ class Invoice:
 
         try:
             with open(filename, 'w') as file:
-                json.dump(file)
+                json.dump(invoice_list, file, indent=4)
         except FileNotFoundError:
             print('❌File not found.')
 
@@ -107,7 +107,7 @@ class Invoice:
         try:
             with open(filename, 'r') as file:
                 return json.load(file)
-        except (FileNotFoundError, json.JSONDecodeError):
+        except (FileNotFoundError):
             print('\n❌Error, either file not found, or parsing error.')
             return []
         
@@ -128,7 +128,7 @@ class Invoice:
 
         # Billing amount
         while True:
-            amount = input('What is the price for the work? Input only numerical Value.')
+            amount = input('What is the price for the work? Input only numerical value. ')
             try:
                 amount = int(amount)
                 break
@@ -140,10 +140,9 @@ class Invoice:
             possible_status = ['Pending', 'Paid', 'Overdue', 'Cancelled']
             
             for index, status in enumerate(possible_status, start=1):
-                print('\n')
-                print(f'{index}: {status}')
+                print(f'\n{index}: {status}')
 
-            invoice_status = input('What is the status of the invoice. Please select from the given options. ')
+            invoice_status = input('\nWhat is the status of the invoice. Please select from the given options. ')
 
             if not invoice_status:
                 print('❌ Status can not be empty, select from the option?')
@@ -179,7 +178,7 @@ class Invoice:
         print('f\n✅Invoice Added Successfully!')
 
     @staticmethod
-    def view_all_incoice():
+    def view_all_invoice():
         invoices = Invoice.load_all_invoice()
     
         for index, each_invoice in enumerate(invoices, start=1):
@@ -941,7 +940,7 @@ def manage_projects():
 def manage_invoice():
     invoice_management_mapping = {
         1: Invoice.handle_invoice_adding,
-        2: Invoice.view_all_incoice,
+        2: Invoice.view_all_invoice,
         3: Invoice.update_invoice,
         4: Invoice.delete_invoice
     }
@@ -958,8 +957,9 @@ def manage_invoice():
         for index, choices in enumerate(invoice_management_choices, start=1):
             print(f'\n {index}: {choices}')
 
+        user_choice = input('\n What do you want to manage in invoices? ')
         try:
-            user_choice = int(input('\nWhat do you want to manage in projects? '))
+            user_choice = int(user_choice)
             action = invoice_management_mapping.get(user_choice)
             if action:
                 action()
@@ -975,7 +975,7 @@ def main_menu():
     main_function_mapping = {
         1: manage_clients,
         2: manage_projects,
-        # Here function will be mapped. For every option in the main choice
+        3: manage_invoice
     }
 
     while True:
