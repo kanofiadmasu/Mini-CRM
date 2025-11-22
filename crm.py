@@ -79,7 +79,7 @@ class Invoice:
         try:
             with open(filename, 'r') as file:
                 invoice_list = json.load(file)
-        except FileNotFoundError:
+        except (FileNotFoundError, json.JSONDecodeError):
             invoice_list = []
 
         invoice = {
@@ -180,14 +180,13 @@ class Invoice:
         invoices = Invoice.load_all_invoice()
     
         for index, each_invoice in enumerate(invoices, start=1):
-            invoice_id = each_invoice["invoice_id"]
             client_name = each_invoice["client_name"]
             project_name = each_invoice["project_name"]
             price_amount = each_invoice["amount"]
             status = each_invoice["status"]
             issue_date = each_invoice["issue_date"]
             due_date = each_invoice["due_date"]
-            print(f'\n{index}: {invoice_id} | {client_name} | {project_name} | {price_amount} | {status} | {issue_date} | {due_date}')
+            print(f'\n{index}: {client_name} | {project_name} | {price_amount} | {status} | {issue_date} | {due_date}')
         
     @staticmethod
     def update_invoice(filename='invoice.json'):
