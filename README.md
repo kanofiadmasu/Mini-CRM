@@ -18,11 +18,9 @@ Python 3.8+ is required
 
 Clone the repo and head to the folder.
 
-    ```bash
     git clone https://github.com/kanofiadmasu/Mini-CRM
     cd Mini-CRM
-    ```
-
+    
 ## Usage 
 
 Once installed, simply run the file and you can interact with the software easily. 
