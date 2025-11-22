@@ -356,8 +356,7 @@ class Invoice:
                 json.dump(invoices_list, file, indent=4)
         except FileNotFoundError:
             print('❌ Invoice file not found. ')
-        
-        invoice_id = deleted_invoice["invoice_id"]
+
         name = deleted_invoice["client_name"]
         project = deleted_invoice["project_name"]
         price_amount = deleted_invoice["amount"]
@@ -365,7 +364,7 @@ class Invoice:
         issue_date = deleted_invoice["issue_date"]
         due_date = deleted_invoice["due_date"]
         
-        print(f'\n✅ Invoice deleted successfully: {invoice_id} | {name} | {project} | {price_amount} | {status} | {issue_date} | {due_date}')
+        print(f'\n✅ Invoice deleted successfully: {name} | {project} | {price_amount} | {status} | {issue_date} | {due_date}')
     
 '''This Functions are Under Manage client Functions'''
 # Client Adding Section
