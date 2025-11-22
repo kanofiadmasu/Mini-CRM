@@ -188,6 +188,8 @@ class Invoice:
             due_date = each_invoice["due_date"]
             print(f'\n{index}: {client_name} | {project_name} | {price_amount} | {status} | {issue_date} | {due_date}')
         
+        return invoices
+        
     @staticmethod
     def update_invoice(filename='invoice.json'):
         invoices_list = Invoice.view_all_invoice()
@@ -200,7 +202,7 @@ class Invoice:
                     print('❌ Input can not be empty. Choose the number associated with the project.')
                     continue
 
-                if user_choice < 1 or user_choice > len(invoices_list):
+                if user_choice < 1 or user_choice > len(invoices_list) :
                     print('❌Invlaid selection. Select from the numbers associated with the data.')
                     continue
 
