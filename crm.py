@@ -170,8 +170,8 @@ class Invoice:
     # Handle Invoice Adding
     @staticmethod
     def handle_invoice_adding():
-        client_name, project_name, amount, status, due_date= Invoice.add_invoice()
-        invoice = Invoice(client_name, project_name, amount, status, due_date)
+        invoice_details = Invoice.add_invoice()
+        invoice = Invoice(*invoice_details)
         invoice.invoice_saving()
         print('\n✅ Invoice Added Successfully!')
 
@@ -206,14 +206,13 @@ class Invoice:
 
                 else:
                     invoice = invoices_list[user_choice-1]
-                    invoice_id = invoice["invoice_id"]
                     name = invoice["client_name"]
                     project_name= invoice["project_name"]
                     price_amount = invoice["amount"]
                     status = invoice["status"]
                     issue_date = invoice["issue_date"]
                     due_date= invoice["due_date"]
-                    print(f'\n✅{invoice_id} | {name} | {project_name} | {price_amount} | {status} | {issue_date} | {due_date} ')
+                    print(f'\n✅ {name} | {project_name} | {price_amount} | {status} | {issue_date} | {due_date} ')
                     print('\n')
                     break
             except ValueError:

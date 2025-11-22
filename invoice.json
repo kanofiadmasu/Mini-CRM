@@ -6,5 +6,13 @@
         "status": "Pending",
         "issue_date": "22/11/2025",
         "due_date": "01/01/2026"
+    },
+    {
+        "client_name": "Test2",
+        "project_name": "Test2",
+        "amount": 400.0,
+        "status": "Paid",
+        "issue_date": "22/11/2025",
+        "due_date": "01/01/2025"
     }
 ]
