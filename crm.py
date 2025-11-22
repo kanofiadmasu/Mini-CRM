@@ -75,7 +75,7 @@ class Invoice:
         self.issue_date = datetime.now().strftime('%d/%m/%Y')
         self.due_date = due_date
     
-    def save_to_file(self, filename='invoice.json'):
+    def invoice_saving(self, filename='invoice.json'):
         try:
             with open(filename, 'r') as file:
                 invoice_list = json.load(file)
@@ -170,10 +170,10 @@ class Invoice:
     # Handle Invoice Adding
     @staticmethod
     def handle_invoice_adding():
-        invoice_details = Invoice.add_invoice()
-        invoices = Invoice(*invoice_details)
-        invoices.save_to_file()
-        print('f\n✅ Invoice Added Successfully!')
+        client_name, project_name, amount, status, due_date= Invoice.add_invoice()
+        invoice = Invoice(client_name, project_name, amount, status, due_date)
+        invoice.invoice_saving()
+        print('\n✅ Invoice Added Successfully!')
 
     @staticmethod
     def view_all_invoice():
@@ -905,7 +905,8 @@ def manage_projects():
          1: preparation_function, # This is the function that calls the project_adding function depending on the condition
          2: view_projects,
          3: update_projects,
-         4: project_deletion
+         4: project_deletion,
+         5: None
     }
 
     while True:
@@ -939,34 +940,35 @@ def manage_invoice():
         1: Invoice.handle_invoice_adding,
         2: Invoice.view_all_invoice,
         3: Invoice.update_invoice,
-        4: Invoice.delete_invoice
+        4: Invoice.delete_invoice,
+        5: None
     }
-          
+
+    invoice_management_choices = [
+        'Add Invoice',
+        'View All Invoices',
+        'Update Invoice',
+        'Delete Invoice',
+        'Back to Main Menu'
+    ]
+    
     while True:
-        invoice_management_choices = [
-            'Add Invoice',
-            'View All Invoices',
-            'Update Invoice',
-            'Delete Invoice',
-            'Back to Main Menu'
-        ]
-
         for index, choices in enumerate(invoice_management_choices, start=1):
-            print(f'\n {index}: {choices}')
-
-        user_choice = input('\n What do you want to manage in invoices? ')
+            print(f'\n{index}: {choices}')
+        
         try:
-            user_choice = int(user_choice)
+            user_choice = int(input('\nWhat do you want to manage in invoices? '))
             action = invoice_management_mapping.get(user_choice)
+
             if action:
                 action()
             elif user_choice == 5:
                 break
             else:
-                print('❌ Please chose the right number(1-5)')
+                print('❌ Please, choose the right number (1-5)')
         except ValueError:
-            print('Please provide the right input!')
-
+            print('\n❌ Please, provide the right input.')
+            
 # Main menu section 
 def main_menu():
     main_function_mapping = {
