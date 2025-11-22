@@ -1,8 +1,10 @@
 from datetime import datetime
 import re 
 import json
+import random
+import string
 
-print('\nWelcome to the CRM system for freelancers!\n')
+print('\nWELCOME TO CRM SYSTEM FOR FRELANCERS!\n')
 class Clients(): 
     def __init__(self, name, phone_num, company, notes): 
         self.name = name
@@ -58,15 +60,311 @@ class Projects: #Project adding and creation
             print('Couldn\'t find the file.')
 
         return projects_list
-
-# Invoices Class
-class Invoice:
-    def __init__(self, client_name):
-        pass
-
+    
 # Function to check for correct name input pattern
 def is_valid_pattern(user_input):
     return bool(re.match(r"^[A-Za-z0-9\s\-\']+$", user_input.strip()))
+
+# Invoices Class
+class Invoice:
+    def __init__(self, client_name, project_name, amount, status, due_date):
+        self.client_name = client_name
+        self.project_name = project_name 
+        self.amount = amount
+        self.status = status 
+        self.issue_date = datetime.now().strftime('%d/%m/%Y')
+        self.due_date = due_date
+    
+    def invoice_saving(self, filename='invoice.json'):
+        try:
+            with open(filename, 'r') as file:
+                invoice_list = json.load(file)
+        except (FileNotFoundError, json.JSONDecodeError):
+            invoice_list = []
+
+        invoice = {
+            "client_name": self.client_name,
+            "project_name": self.project_name,
+            "amount": self.amount,
+            "status": self.status,
+            "issue_date": self.issue_date,
+            "due_date": self.due_date
+        }
+        
+        invoice_list.append(invoice)
+
+        try:
+            with open(filename, 'w') as file:
+                json.dump(invoice_list, file, indent=4)
+        except FileNotFoundError:
+            print('❌ File not found.')
+
+    @staticmethod
+    def load_all_invoice(filename="invoice.json"):
+        # Resuable static method for other CRUD on the filename
+        try:
+            with open(filename, 'r') as file:
+                return json.load(file)
+        except (FileNotFoundError, json.JSONDecodeError):
+            print('\n❌ Error, either file not found, or parsing error.')
+            return []
+        
+    @staticmethod 
+    def add_invoice():        
+        while True:
+            client_name = input('\nWhat is the name of the client? ').strip()
+            if is_valid_pattern(client_name):
+                break
+            print('❌Invalid name. Please provide a correct name')
+
+        # Project name
+        while True:
+            project_name = input('What is the project name? ').strip()
+            if is_valid_pattern(project_name):
+                break
+            print('❌ Invalid project name. Please provide a correct project name.')
+
+        # Billing amount
+        while True:
+            amount = input('What is the price for the work? Input only numerical value. ')
+            try:
+                amount = float(amount)
+                break
+            except ValueError:
+                print('❌ Provided the wrong input, try providng numerical amount for the price.')
+
+        # Invoice Status
+        possible_status = ['Pending', 'Paid', 'Overdue', 'Cancelled']
+        while True:
+            for index, poss_status in enumerate(possible_status, start=1):
+                print(f'\n{index}: {poss_status}')
+
+            invoice_status = input('\nWhat is the status of the invoice. Please select from the given options. ')
+
+            if not invoice_status:
+                print('❌ Status can not be empty, select from the option?')
+                continue
+
+            try:
+                invoice_status = int(invoice_status)
+                if 1 <=  invoice_status <= 4:
+                    status = possible_status[invoice_status - 1]
+                else:
+                    print('❌ Invalid Input, only number from 1- 4 is valid')
+                    continue
+                break
+            except ValueError:
+                print('❌Input can only be numerical, select from the options give.')
+
+        # Due Date for the payment
+        while True:
+            due_date = input('When is the due date for the payment? Enter in the form(dd/mm/yyyy) ')
+            try:
+                datetime.strptime(due_date, "%d/%m/%Y")
+                break
+            except ValueError:
+                print('❌ Invalid date format. Please use dd/mm/yyyy')
+
+        return client_name, project_name, amount, status, due_date
+
+    # Handle Invoice Adding
+    @staticmethod
+    def handle_invoice_adding():
+        invoice_details = Invoice.add_invoice()
+        invoice = Invoice(*invoice_details)
+        invoice.invoice_saving()
+        print('\n✅ Invoice Added Successfully!')
+
+    @staticmethod
+    def view_all_invoice():
+        invoices = Invoice.load_all_invoice()
+    
+        for index, each_invoice in enumerate(invoices, start=1):
+            client_name = each_invoice["client_name"]
+            project_name = each_invoice["project_name"]
+            price_amount = each_invoice["amount"]
+            status = each_invoice["status"]
+            issue_date = each_invoice["issue_date"]
+            due_date = each_invoice["due_date"]
+            print(f'\n{index}: {client_name} | {project_name} | {price_amount} | {status} | {issue_date} | {due_date}')
+        
+        return invoices
+        
+    @staticmethod
+    def update_invoice(filename='invoice.json'):
+        invoices_list = Invoice.view_all_invoice()
+
+        while True: 
+            try:
+                user_choice = int(input('\nSelect the Invoice number you would like to update. '))
+
+                if not user_choice:
+                    print('❌ Input can not be empty. Choose the number associated with the project.')
+                    continue
+
+                if user_choice < 1 or user_choice > len(invoices_list) :
+                    print('❌Invlaid selection. Select from the numbers associated with the data.')
+                    continue
+
+                else:
+                    invoice = invoices_list[user_choice-1]
+                    name = invoice["client_name"]
+                    project_name= invoice["project_name"]
+                    price_amount = invoice["amount"]
+                    status = invoice["status"]
+                    issue_date = invoice["issue_date"]
+                    due_date= invoice["due_date"]
+                    print(f'\n✅ {name} | {project_name} | {price_amount} | {status} | {issue_date} | {due_date} ')
+                    print('\n')
+                    break
+            except ValueError:
+                print('⚠️ Only number is allowed as an input. ')
+
+        update_choices = ['Client Name', 'Project Type', 'Price Amount', 'Status', 'Due Date']
+        while True:
+            for index, options in enumerate(update_choices, start=1):
+                print(f'{index}: {options}')
+        
+            try:
+                user_input= int(input('\nWhich section would you like to update? '))
+
+                if not user_input:
+                    print('❌ Input can not be empty. Select from the possible options.')
+                    continue
+                
+                # If User input is with in this numbers, updating will continue depending on the input
+                if user_input in [1, 2, 3, 4, 5]:
+                    # Frist user choice
+                    if user_input == 1:
+                        while True:
+                            new_name = input('What is the new client name? ')
+
+                            if not new_name:
+                                print('❌ Input can not be empty!')
+                                continue
+                            
+                            if not is_valid_pattern(new_name):
+                                print('⚠️ Provide a valid name.')
+                                continue
+                            else:
+                                name = new_name
+                                break
+
+                    # Second user choice
+                    elif user_input == 2:
+                        while True:
+                            new_project = input('What is the new project type? ')
+
+                            if not new_project:
+                                print('❌ Project can not be empty!')
+                                continue
+                            
+                            if not is_valid_pattern(new_project):
+                                print('⚠️ Provide a valid Project type.')
+                                continue
+                            else:
+                                project_name = new_project
+                                break
+                    
+                    # Third User Choice
+                    elif user_input == 3:
+                        while True:
+                            new_amount = input('What is the new price amount? Enter numerical value only? ')
+
+                            if not new_amount:
+                                print('❌ Amount can not be empty!')
+
+                            try:
+                                new_amount = int(new_amount)
+                                price_amount = new_amount
+                                break 
+                            except ValueError:
+                                print('❌ The price amount can only be numerical.')
+                                continue
+
+                    # Fourth user choice
+                    elif user_input== 4:
+                        possible_status = ["Pending", "Paid", "Over Due", "Cancelled"]
+                        while True:
+                            print('\nSelect the new project status:')
+                            for index, valid_status in enumerate(possible_status, start=1):
+                                print(f'\n{index}: {valid_status}')
+                            new_status_input = input('What is the new status of your project? Selcet the number From the options. ') 
+                            
+                            if not new_status_input:
+                                print('❌ Input can not be empty. Please choose from the option.')
+                                continue
+
+                            try:
+                                new_status_input = int(new_status_input)
+                            except ValueError:
+                                print('❌ Choose only from the numbers.')
+                                continue
+                            
+                            if new_status_input:
+                                status = possible_status[int(new_status_input)-1]
+                                break
+
+                    # Fifth user choice
+                    elif user_input == 5:
+                        while True:
+                            new_deadline = input('When is the deadline?(dd/mm/yyyy) ')
+                            try:
+                                datetime.strptime(new_deadline, "%d/%m/%Y")
+                                due_date = new_deadline
+                                break
+                            except ValueError:
+                                print('Invalid date format. Please use dd/mm/yyyy')
+                    else: 
+                        print('❌ Invlaid selection. Choose only from 1-4')
+                    
+                    break  #Exit the update loop
+
+            except ValueError:
+                print('❌ Only numbers are allowed. Select from the option 1-4')
+
+        # Update the project_list and the projects_file
+
+        with open(filename, 'w') as file:
+            json.dump(invoices_list, file, indent=7)
+        print(f'\n{name} | {project_name} | {price_amount} | {status} | {issue_date} | {due_date}')
+        print('✅ Invoice updated successfully! ')
+
+    @staticmethod
+    def delete_invoice(filename='invoice.json'):
+        invoices_list = Invoice.view_all_invoice()
+
+        while True:
+            try:
+                delete_choice = int(input('\nWhich Invoice would you like to delete? Select the number associated with it. '))
+
+                if not delete_choice:
+                    print('❌ Input can not be empty!')
+                    continue
+
+                if delete_choice < 1 or delete_choice > len(invoices_list):
+                    print('❌Invlaid selection. Select from the numbers associated with the data.')
+                    continue
+                else:
+                    break
+            except ValueError:
+                print('⚠️ Invalid Selection. Select only numbers.')
+
+        deleted_invoice = invoices_list.pop(delete_choice - 1)
+        try:
+            with open(filename, 'w') as file:
+                json.dump(invoices_list, file, indent=4)
+        except FileNotFoundError:
+            print('❌ Invoice file not found. ')
+
+        name = deleted_invoice["client_name"]
+        project = deleted_invoice["project_name"]
+        price_amount = deleted_invoice["amount"]
+        status = deleted_invoice["status"]
+        issue_date = deleted_invoice["issue_date"]
+        due_date = deleted_invoice["due_date"]
+        
+        print(f'\n✅ Invoice deleted successfully: {name} | {project} | {price_amount} | {status} | {issue_date} | {due_date}')
     
 '''This Functions are Under Manage client Functions'''
 # Client Adding Section
@@ -88,7 +386,7 @@ def add_client():
         print('Please, Provide the right input!')
             
     while True:
-        company = input('What is the Company name?').strip()
+        company = input('What is the Company name? ').strip()
         if re.match(r'^[A-Za-z0-9\s\-]+$', company):
             break
         print('Company name can only include string, numbers, sapces, and hyphen!')
@@ -606,7 +904,8 @@ def manage_projects():
          1: preparation_function, # This is the function that calls the project_adding function depending on the condition
          2: view_projects,
          3: update_projects,
-         4: project_deletion
+         4: project_deletion,
+         5: None
     }
 
     while True:
@@ -633,21 +932,55 @@ def manage_projects():
                 print('Please, choose the right number(1-5)')                
         except ValueError:
             print('Please, provide the right input!')
-          
+
+# INVOICE MANAGMET FUNCTION
+def manage_invoice():
+    invoice_management_mapping = {
+        1: Invoice.handle_invoice_adding,
+        2: Invoice.view_all_invoice,
+        3: Invoice.update_invoice,
+        4: Invoice.delete_invoice,
+        5: None
+    }
+
+    invoice_management_choices = [
+        'Add Invoice',
+        'View All Invoices',
+        'Update Invoice',
+        'Delete Invoice',
+        'Back to Main Menu'
+    ]
+    
+    while True:
+        for index, choices in enumerate(invoice_management_choices, start=1):
+            print(f'\n{index}: {choices}')
+        
+        try:
+            user_choice = int(input('\nWhat do you want to manage in invoices? '))
+            action = invoice_management_mapping.get(user_choice)
+
+            if action:
+                action()
+            elif user_choice == 5:
+                break
+            else:
+                print('❌ Please, choose the right number (1-5)')
+        except ValueError:
+            print('\n❌ Please, provide the right input.')
+            
 # Main menu section 
 def main_menu():
     main_function_mapping = {
         1: manage_clients,
         2: manage_projects,
-        # Here function will be mapped. For every option in the main choice
+        3: manage_invoice
     }
 
     while True:
         main_choices =[ 
                     ' Manage Clients',
                     ' Manage Projects',
-                    ' Create Invoices',
-                    ' Record Payments',
+                    ' Manage Invoices',
                      ]
         
         for index, option in enumerate(main_choices, start=1):

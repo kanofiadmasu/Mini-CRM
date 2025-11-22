@@ -14,13 +14,6 @@
         "deadline": "12/12/2025"
     },
     {
-        "client_name": "new",
-        "project": "ML ",
-        "status": "Not-Started",
-        "start_date": "25/10/2025",
-        "deadline": "12/12/2025"
-    },
-    {
         "client_name": "Main Testing",
         "project": "Software",
         "status": "Not-Started",
@@ -33,5 +26,12 @@
         "status": "Not-Started",
         "start_date": "26/10/2025",
         "deadline": "20/02/2026"
+    },
+    {
+        "client_name": "Bobby",
+        "project": "Backend",
+        "status": "Not-Started",
+        "start_date": "22/11/2025",
+        "deadline": "20/12/2025"
     }
 ]
