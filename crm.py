@@ -87,7 +87,7 @@ class Invoice:
             "invoice_id": self.invoice_id,
             "client_name": self.client_name,
             "project_name": self.project_name,
-            "price_amount": self.amount,
+            "amount": self.amount,
             "status": self.status,
             "issue_date": self.issue_date,
             "due_date": self.due_date
@@ -107,14 +107,14 @@ class Invoice:
         try:
             with open(filename, 'r') as file:
                 return json.load(file)
-        except (FileNotFoundError):
+        except FileNotFoundError:
             print('\n❌Error, either file not found, or parsing error.')
             return []
         
     @staticmethod 
     def add_invoice():        
         while True:
-            client_name = input('What is the name of the client? ').strip()
+            client_name = input('\nWhat is the name of the client? ').strip()
             if is_valid_pattern(client_name):
                 break
             print('❌Invalid name. Please provide a correct name')
@@ -136,9 +136,8 @@ class Invoice:
                 print('❌ Provided the wrong input, try providng numerical amount for the price.')
 
         # Invoice Status
+        possible_status = ['Pending', 'Paid', 'Overdue', 'Cancelled']
         while True:
-            possible_status = ['Pending', 'Paid', 'Overdue', 'Cancelled']
-            
             for index, status in enumerate(possible_status, start=1):
                 print(f'\n{index}: {status}')
 
@@ -150,14 +149,15 @@ class Invoice:
 
             try:
                 invoice_status = int(invoice_status)
+                if invoice_status in [1, 2, 3, 4]:
+                    status = possible_status[invoice_status - 1]
+                else:
+                    print('❌ Invalid Input, only number from 1- 4 is valid')
+                    continue
                 break
             except ValueError:
                 print('❌Input can only be numerical, select from the options give.')
 
-            if invoice_status:
-                status = possible_status[invoice_status - 1]
-                break
-        
         # Due Date for the payment
         while True:
             due_date = input('When is the due date for the payment? Enter in the form(dd/mm/yyyy) ')
@@ -172,10 +172,10 @@ class Invoice:
     # Handle Invoice Adding
     @staticmethod
     def handle_invoice_adding():
-        client_name, project_name, amount, status, due_date = Invoice.add_invoice()
-        invoices = Invoice(client_name, project_name, amount, status, due_date)
+        invoice_details = Invoice.add_invoice()
+        invoices = Invoice(*invoice_details)
         invoices.save_to_file()
-        print('f\n✅Invoice Added Successfully!')
+        print('f\n✅ Invoice Added Successfully!')
 
     @staticmethod
     def view_all_invoice():
@@ -183,18 +183,17 @@ class Invoice:
     
         for index, each_invoice in enumerate(invoices, start=1):
             invoice_id = each_invoice["invoice_id"]
-            client_name = each_invoice["clinet_name"]
+            client_name = each_invoice["client_name"]
             project_name = each_invoice["project_name"]
-            price_amount = each_invoice["price_amount"]
+            price_amount = each_invoice["amount"]
             status = each_invoice["status"]
             issue_date = each_invoice["issue_date"]
             due_date = each_invoice["due_date"]
-        print('\n')
-        print(f'{index}: {invoice_id} | {client_name} | {project_name} | {price_amount} | {status} | {issue_date} | {due_date}')
+            print(f'\n{index}: {invoice_id} | {client_name} | {project_name} | {price_amount} | {status} | {issue_date} | {due_date}')
         
     @staticmethod
     def update_invoice(filename='invoice.json'):
-        invoices_list = Invoice.view_all_incoice()
+        invoices_list = Invoice.view_all_invoice()
 
         while True: 
             try:
@@ -213,7 +212,7 @@ class Invoice:
                     invoice_id = invoice["invoice_id"]
                     name = invoice["client_name"]
                     project_name= invoice["project_name"]
-                    price_amount = invoice["price_amount"]
+                    price_amount = invoice["amount"]
                     status = invoice["status"]
                     issue_date = invoice["issue_date"]
                     due_date= invoice["due_date"]
@@ -335,7 +334,7 @@ class Invoice:
 
     @staticmethod
     def delete_invoice(filename='invoice.json'):
-        invoices_list = Invoice.view_all_incoice()
+        invoices_list = Invoice.view_all_invoice()
 
         while True:
             try:
@@ -363,7 +362,7 @@ class Invoice:
         invoice_id = deleted_invoice["invoice_id"]
         name = deleted_invoice["client_name"]
         project = deleted_invoice["project_name"]
-        price_amount = deleted_invoice["price_amount"]
+        price_amount = deleted_invoice["amount"]
         status = deleted_invoice["status"]
         issue_date = deleted_invoice["issue_date"]
         due_date = deleted_invoice["due_date"]
