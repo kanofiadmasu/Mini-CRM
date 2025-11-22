@@ -34,14 +34,14 @@ When running on the terminal, there will be an output option to which object to 
 
 ## Project Structure 
 
-
-Mini-CRM/
-│
-├── crm.py      # Main CLI script
-├── clients.txt         # Saved Clients
-├── projects.json       # Saved Projects
-├── invoices.json       # Saved Invoices
-├── README
+    
+    Mini-CRM/
+    │
+    ├── crm.py      # Main CLI script
+    ├── clients.txt         # Saved Clients
+    ├── projects.json       # Saved Projects
+    ├── invoices.json       # Saved Invoices
+    ├── README
 
 ## Learning Outcomes 
 
