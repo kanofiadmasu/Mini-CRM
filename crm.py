@@ -68,7 +68,6 @@ def is_valid_pattern(user_input):
 # Invoices Class
 class Invoice:
     def __init__(self, client_name, project_name, amount, status, due_date):
-        self.invoice_id = ''.join(random.choice(string.ascii_letters + string.digits)for _ in range(4))
         self.client_name = client_name
         self.project_name = project_name 
         self.amount = amount
@@ -84,7 +83,6 @@ class Invoice:
             invoice_list = []
 
         invoice = {
-            "invoice_id": self.invoice_id,
             "client_name": self.client_name,
             "project_name": self.project_name,
             "amount": self.amount,
@@ -99,7 +97,7 @@ class Invoice:
             with open(filename, 'w') as file:
                 json.dump(invoice_list, file, indent=4)
         except FileNotFoundError:
-            print('❌File not found.')
+            print('❌ File not found.')
 
     @staticmethod
     def load_all_invoice(filename="invoice.json"):
@@ -107,8 +105,8 @@ class Invoice:
         try:
             with open(filename, 'r') as file:
                 return json.load(file)
-        except FileNotFoundError:
-            print('\n❌Error, either file not found, or parsing error.')
+        except (FileNotFoundError, json.JSONDecodeError):
+            print('\n❌ Error, either file not found, or parsing error.')
             return []
         
     @staticmethod 
@@ -121,7 +119,7 @@ class Invoice:
 
         # Project name
         while True:
-            project_name = input('What is the project name? ')
+            project_name = input('What is the project name? ').strip()
             if is_valid_pattern(project_name):
                 break
             print('❌ Invalid project name. Please provide a correct project name.')
@@ -130,7 +128,7 @@ class Invoice:
         while True:
             amount = input('What is the price for the work? Input only numerical value. ')
             try:
-                amount = int(amount)
+                amount = float(amount)
                 break
             except ValueError:
                 print('❌ Provided the wrong input, try providng numerical amount for the price.')
@@ -138,8 +136,8 @@ class Invoice:
         # Invoice Status
         possible_status = ['Pending', 'Paid', 'Overdue', 'Cancelled']
         while True:
-            for index, status in enumerate(possible_status, start=1):
-                print(f'\n{index}: {status}')
+            for index, poss_status in enumerate(possible_status, start=1):
+                print(f'\n{index}: {poss_status}')
 
             invoice_status = input('\nWhat is the status of the invoice. Please select from the given options. ')
 
@@ -149,7 +147,7 @@ class Invoice:
 
             try:
                 invoice_status = int(invoice_status)
-                if invoice_status in [1, 2, 3, 4]:
+                if 1 <=  invoice_status <= 4:
                     status = possible_status[invoice_status - 1]
                 else:
                     print('❌ Invalid Input, only number from 1- 4 is valid')
@@ -389,7 +387,7 @@ def add_client():
         print('Please, Provide the right input!')
             
     while True:
-        company = input('What is the Company name?').strip()
+        company = input('What is the Company name? ').strip()
         if re.match(r'^[A-Za-z0-9\s\-]+$', company):
             break
         print('Company name can only include string, numbers, sapces, and hyphen!')
