@@ -7,3 +7,4 @@ Sir | Sir.Enlighten@gmail.com | 123-456-789 | Enlighten | Go all in
 Test | Test.Enlighten@gmail.com | 4444-333-333 | Enlighten | Testing function handling
 Main Testing | Main Testing.Conviction@gmail.com | 2423-222-2202 | Conviction | VC
 Bobby | Bobby.Stripe@gmail.com | 122-333-444 | Stripe | Important Project
+Test | Test.Stripe@gmail.com | 111-222-333 | Stripe | Special Backed Requirment
